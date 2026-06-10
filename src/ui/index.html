@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquanauta</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="aero-window" id="app-window">
+
+    <!-- title bar -->
+    <div class="aero-title-bar" id="title-bar">
+      <img src="../../assets/mascote/mascote.png" class="aero-title-icon" alt="Aquanauta" draggable="false">
+      <span class="aero-title-bar-text">Aquanauta</span>
+      <div class="aero-title-bar-controls">
+        <button id="btn-minimize" title="Minimizar">&#8722;</button>
+        <button id="btn-zoom-reset" title="Tamanho padrão">&#9633;</button>
+        <button id="btn-close" class="close" title="Fechar">&#10005;</button>
+      </div>
+    </div>
+
+    <!-- janela -->
+    <div class="aero-window-body">
+
+      <!-- mascote -->
+      <div class="mascot-area" id="mascot-area">
+        <img src="../../assets/mascote/mascote.png" id="mascot-img" alt="Aquanauta Mascote" draggable="false">
+        <div class="mascot-speech-bubble" id="speech-bubble">
+          <p id="speech-text">Ola! Eu sou o Aquanauta. Vou te ajudar a manter habitos saudaveis!</p>
+        </div>
+      </div>
+
+  
+
+      <!-- painel de status -->
+      <div class="status-panel" id="status-panel">
+    <div class="background_pomodoro">
+      <div class="pomodoro-header-title">Pomodoro</div>
+        <div class="status-item">
+          <img src="../../assets/icons/pomodoro.png" class="status-icon" alt="Pomodoro" draggable="false">
+          <div class="status-info">
+            <span class="status-value-pomodoro" id="pomodoro-display">25:00</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="pomodoro-progress"></div>
+          </div>
+        </div>
+      <div class="controls-area">
+        <button class="pomodoro-ctrl-btn" id="btn-play-pomodoro" title="Iniciar">&#9654;</button>
+        <button class="pomodoro-ctrl-btn" id="btn-reset-pomodoro" title="Reiniciar" disabled>&#8635;</button>
+      </div>
+      </div>
+        <div class="section-title">Temporizadores Padrões</div>
+        <div class="status-item" id="status-item-water">
+          <img src="../../assets/icons/water.png" class="status-icon" alt="Agua" draggable="false">
+          <div class="status-info">
+            <span class="status-label">Proxima hidratacao</span>
+            <span class="status-value" id="water-display">30:00</span>
+          </div>
+          <div class="status-actions">
+            <button class="counter-reset-btn" id="btn-reset-water" title="Reiniciar contador">
+              <img src="../../assets/icons/reset.png" alt="Reset" draggable="false">
+            </button>
+          </div>
+        </div>
+        <div class="status-item" id="status-item-stretch">
+          <img src="../../assets/icons/stretch.png" class="status-icon" alt="Alongamento" draggable="false">
+          <div class="status-info">
+            <span class="status-label">Proximo alongamento</span>
+            <span class="status-value" id="stretch-display">45:00</span>
+          </div>
+          <div class="status-actions">
+            <button class="counter-reset-btn" id="btn-reset-stretch" title="Reiniciar contador">
+              <img src="../../assets/icons/reset.png" alt="Reset" draggable="false">
+            </button>
+          </div>
+        </div>
+        <div class="status-item" id="status-item-eyes">
+          <img src="../../assets/icons/eyes.png" class="status-icon" alt="Olhos" draggable="false">
+          <div class="status-info">
+            <span class="status-label">Descanso dos olhos</span>
+            <span class="status-value" id="eyes-display">20:00</span>
+          </div>
+          <div class="status-actions">
+            <button class="counter-reset-btn" id="btn-reset-eyes" title="Reiniciar contador">
+              <img src="../../assets/icons/reset.png" alt="Reset" draggable="false">
+            </button>
+          </div>
+        </div>
+
+        <!-- temporizadores personalizados são inseridos aqui  -->
+        <div class="section-title">Temporizadores Personalizados</div>
+        <div id="custom-timers-empty" class="timers-empty-msg">Você não possui temporizadores personalizados no momento.</div>
+        <div id="custom-timers-container" class="status-panel custom-timers"></div>
+      </div>
+
+      <!-- adicionar botão de temporizador -->
+      <div class="add-timer-area">
+        <button class="frutiger-aero-button small" id="btn-add-timer">
+          Adicionar Temporizador
+        </button>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="bottom-bar">
+        <div class="activity-indicator">
+          <div class="activity-dot" id="activity-dot"></div>
+          <span id="activity-status">Monitorando atividade...</span>
+        </div>
+        <div class="bottom-bar-buttons">
+          <button class="glossy-orb glossy-orb-medication" id="btn-medication" title="Medicamentos">
+            <img src="../../assets/icons/medication.png" class="orb-icon" alt="Sobre" draggable="false">
+          </button>
+          <button class="glossy-orb glossy-orb-schedule" id="btn-schedule" title="Cronograma">
+            <img src="../../assets/icons/schedule.png" class="orb-icon" alt="Sobre" draggable="false">
+          </button>
+          <button class="glossy-orb glossy-orb-about" id="btn-about" title="Sobre o Aquanauta">
+            <img src="../../assets/icons/about.png" class="orb-icon" alt="Sobre" draggable="false">
+          </button>
+          <button class="glossy-orb glossy-orb-settings" id="btn-settings" title="Configuracoes">
+            <img src="../../assets/icons/settings.png" class="orb-icon" alt="Configuracoes" draggable="false">
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- configs -->
+  <div class="modal-overlay" id="settings-modal" style="display:none;">
+    <div class="aero-window settings-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/icons/settings.png" class="aero-title-icon" alt="Configuracoes" draggable="false">
+        <span class="aero-title-bar-text">Configuracoes</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-settings">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body settings-body">
+
+        <div class="settings-section">
+          <h3>Pomodoro</h3>
+          <div class="setting-row">
+            <label for="setting-work-duration">Tempo de trabalho (min):</label>
+            <input type="number" id="setting-work-duration" min="1" max="120" value="25">
+          </div>
+          <div class="setting-row">
+            <label for="setting-break-duration">Tempo de pausa (min):</label>
+            <input type="number" id="setting-break-duration" min="1" max="60" value="5">
+          </div>
+          <div class="setting-row">
+            <label for="setting-long-break">Pausa longa (min):</label>
+            <input type="number" id="setting-long-break" min="1" max="60" value="15">
+          </div>
+          <div class="setting-row">
+            <label for="setting-cycles">Ciclos ate pausa longa:</label>
+            <input type="number" id="setting-cycles" min="1" max="10" value="4">
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Notificacoes</h3>
+          <div class="setting-row">
+            <label for="setting-water-interval">Intervalo hidratacao (min):</label>
+            <input type="number" id="setting-water-interval" min="1" max="120" value="30">
+          </div>
+          <div class="setting-row">
+            <label for="setting-stretch-interval">Intervalo alongamento (min):</label>
+            <input type="number" id="setting-stretch-interval" min="1" max="120" value="45">
+          </div>
+          <div class="setting-row">
+            <label for="setting-eyes-interval">Descanso olhos (min):</label>
+            <input type="number" id="setting-eyes-interval" min="1" max="60" value="20">
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Funcionalidades</h3>
+          <div class="setting-row">
+            <label for="toggle-water">Alertas de hidratacao:</label>
+            <input type="checkbox" id="toggle-water" checked>
+          </div>
+          <div class="setting-row">
+            <label for="toggle-stretch">Alertas de alongamento:</label>
+            <input type="checkbox" id="toggle-stretch" checked>
+          </div>
+          <div class="setting-row">
+            <label for="toggle-eyes">Descanso dos olhos:</label>
+            <input type="checkbox" id="toggle-eyes" checked>
+          </div>
+          <div class="setting-row">
+            <label for="toggle-sound">Som de notificacao:</label>
+            <input type="checkbox" id="toggle-sound" checked>
+          </div>
+          <div class="setting-row">
+            <label for="toggle-bg-sound">Som de fundo:</label>
+            <input type="checkbox" id="toggle-bg-sound" checked>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="frutiger-aero-button medium" id="btn-save-settings">
+            Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- adicioonar/editar temporizador -->
+  <div class="modal-overlay" id="timer-modal" style="display:none;">
+    <div class="aero-window timer-modal-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/icons/personalizado.png" class="aero-title-icon" alt="Temporizador" draggable="false">
+        <span class="aero-title-bar-text" id="timer-modal-title">Adicionar Temporizador</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-timer-modal">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body settings-body">
+        <div class="settings-section">
+          <div class="setting-row">
+            <label for="timer-name-input">Nome:</label>
+            <input type="text" id="timer-name-input" placeholder="Ex: Lembrete cafe" maxlength="40" class="text-input">
+          </div>
+          <div class="setting-row">
+            <label for="timer-minutes-input">Intervalo (min):</label>
+            <input type="number" id="timer-minutes-input" min="1" max="999" value="10">
+          </div>
+        </div>
+        <div class="settings-actions">
+          <button class="frutiger-aero-button medium" id="btn-save-timer">
+            Salvar
+          </button>
+          <button class="frutiger-aero-button medium btn-delete-timer" id="btn-delete-timer" style="display:none;">
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- sobre o app -->
+  <div class="modal-overlay" id="about-modal" style="display:none;">
+    <div class="aero-window about-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/icons/about.png" class="aero-title-icon" alt="Sobre" draggable="false">
+        <span class="aero-title-bar-text">Sobre o Aquanauta</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-about">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body about-body">
+        <div class="about-header">
+          <img src="../../assets/mascote/mascote.png" class="about-mascot" alt="Aquanauta" draggable="false">
+          <div>
+            <h2>Aquanauta</h2>
+            <p class="about-version">Versao 1.0.0</p>
+            <p class="about-version">2026</p>
+          </div>
+        </div>
+        <div class="about-description">
+          <p>Aplicação desktop para promover o bem-estar do usuario durante o uso prolongado do computador.</p>
+          <p>O Aquanauta monitora sua atividade e gera lembretes inteligentes para hidratacao, alongamento, descanso dos olhos e pausas.</p>
+        </div>
+        <div class="about-section">
+          <h3>Funcionalidades</h3>
+          <ul>
+            <li>Monitoramento de atividade em tempo real</li>
+            <li>Sistema Pomodoro configuravel</li>
+            <li>Alertas de hidratacao, alongamento e descanso</li>
+            <li>Temporizadores personalizados</li>
+            <li>Mascote interativo</li>
+          </ul>
+        </div>
+        <div class="about-section">
+          <h3>Desenvolvedor</h3>
+          <h4>Pedro Paulo de Lima</h4>
+          <p>Desenvolvido como Trabalho de Conclusao de Curso (TCC) para o curso de Ciência da Computação na Universidade Estadual do Centro-Oeste.</p>
+          <p>Contato: pedropaulo0720@outlook.com</p>
+          <p>Redes Sociais:</p>
+        </div>
+        <div class="about-section">
+          <h3>Tecnologias</h3>
+          <p>Electron + HTML + CSS + JavaScript</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- lista de medicamentos -->
+  <div class="modal-overlay" id="medication-modal" style="display:none;">
+    <div class="aero-window med-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/mascote/noti_medication.png" class="aero-title-icon" alt="Medicamentos" draggable="false">
+        <span class="aero-title-bar-text">Medicamentos</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-medication">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body med-body">
+        <div class="settings-section">
+          <h3>Lembretes de hoje</h3>
+          <p class="form-section-hint">O Aquanauta vai avisar voce na hora certa de tomar cada remedio.</p>
+          <div id="medication-list" class="med-list"></div>
+          <div class="add-action-row">
+            <button class="frutiger-aero-button small cyan" id="btn-add-medication">Adicionar Medicamento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- form de medicamento (add/editar) -->
+  <div class="modal-overlay" id="medication-form-modal" style="display:none;">
+    <div class="aero-window timer-modal-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/mascote/noti_medication.png" class="aero-title-icon" alt="Medicamento" draggable="false">
+        <span class="aero-title-bar-text" id="medication-form-title">Adicionar Medicamento</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-medication-form">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body settings-body">
+        <div class="settings-section">
+          <div class="setting-row">
+            <label for="med-name-input">Nome:</label>
+            <input type="text" id="med-name-input" placeholder="Ex: Losartana" maxlength="60">
+          </div>
+          <div class="setting-row">
+            <label for="med-dose-input">Dose:</label>
+            <input type="text" id="med-dose-input" placeholder="Ex: 50mg / 1 comprimido" maxlength="60">
+          </div>
+
+          <div class="form-section">
+            <span class="form-section-label">Horarios</span>
+            <span class="form-section-hint">Adicione um ou mais horarios fixos do dia.</span>
+            <div id="med-times-list" class="times-list"></div>
+            <div class="time-add-row">
+              <input type="time" id="med-time-add-input" value="08:00">
+              <button class="frutiger-aero-button small ghost" id="btn-med-time-add">+ Adicionar horario</button>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <span class="form-section-label">Dias da semana</span>
+            <div id="med-weekday-row" class="weekday-row"></div>
+            <div class="weekday-shortcuts">
+              <button type="button" class="weekday-shortcut" data-preset="all">Todo dia</button>
+              <button type="button" class="weekday-shortcut" data-preset="weekdays">Dias uteis</button>
+              <button type="button" class="weekday-shortcut" data-preset="weekend">Fim de semana</button>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <span class="form-section-label">Observacoes (opcional)</span>
+            <input type="text" id="med-notes-input" placeholder="Ex: tomar com agua, em jejum" maxlength="80" class="text-input" style="width: 100%;">
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="frutiger-aero-button medium" id="btn-save-medication">Salvar</button>
+          <button class="frutiger-aero-button medium danger" id="btn-delete-medication" style="display:none;">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- cronograma (lista) -->
+  <div class="modal-overlay" id="schedule-modal" style="display:none;">
+    <div class="aero-window schedule-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/mascote/noti_routine.png" class="aero-title-icon" alt="Cronograma" draggable="false">
+        <span class="aero-title-bar-text">Cronograma do dia</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-schedule">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body schedule-body">
+        <div class="settings-section">
+          <h3>Sua rotina</h3>
+          <p class="form-section-hint">Cadastre horarios importantes do seu dia (acordar, almoco, dormir, trabalho, estudo, etc). Voce sera lembrado quando chegar a hora.</p>
+          <div id="schedule-list" class="schedule-list"></div>
+          <div class="add-action-row">
+            <button class="frutiger-aero-button small cyan" id="btn-add-schedule">Adicionar Evento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- form de evento (add/editar) -->
+  <div class="modal-overlay" id="schedule-form-modal" style="display:none;">
+    <div class="aero-window timer-modal-window">
+      <div class="aero-title-bar">
+        <img src="../../assets/mascote/noti_routine.png" class="aero-title-icon" alt="Evento" draggable="false">
+        <span class="aero-title-bar-text" id="schedule-form-title">Adicionar Evento</span>
+        <div class="aero-title-bar-controls">
+          <button class="close" id="btn-close-schedule-form">&#10005;</button>
+        </div>
+      </div>
+      <div class="aero-window-body settings-body">
+        <div class="settings-section">
+          <div class="setting-row">
+            <label for="sch-name-input">Nome:</label>
+            <input type="text" id="sch-name-input" placeholder="Ex: Reuniao da equipe" maxlength="60">
+          </div>
+          <div class="setting-row">
+            <label for="sch-category-input">Categoria:</label>
+            <select id="sch-category-input" class="text-input">
+              <option value="wake">Acordar</option>
+              <option value="breakfast">Cafe da manha</option>
+              <option value="lunch">Almoco</option>
+              <option value="dinner">Jantar</option>
+              <option value="work">Trabalho</option>
+              <option value="study">Estudo</option>
+              <option value="computer">Computador</option>
+              <option value="sleep">Dormir</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label for="sch-time-input">Horario:</label>
+            <input type="time" id="sch-time-input" value="08:00">
+          </div>
+          <div class="setting-row">
+            <label for="sch-prealert-input">Aviso antecipado (min):</label>
+            <input type="number" id="sch-prealert-input" min="0" max="120" value="0">
+          </div>
+
+          <div class="form-section">
+            <span class="form-section-label">Dias da semana</span>
+            <div id="sch-weekday-row" class="weekday-row"></div>
+            <div class="weekday-shortcuts">
+              <button type="button" class="weekday-shortcut" data-preset="all">Todo dia</button>
+              <button type="button" class="weekday-shortcut" data-preset="weekdays">Dias uteis</button>
+              <button type="button" class="weekday-shortcut" data-preset="weekend">Fim de semana</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="frutiger-aero-button medium" id="btn-save-schedule">Salvar</button>
+          <button class="frutiger-aero-button medium danger" id="btn-delete-schedule" style="display:none;">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- audio de notificacao -->
+  <audio id="notification-sound" preload="auto">
+    <source src="../../assets/sounds/notification.wav" type="audio/wav">
+  </audio>
+
+  <!-- som de fundo -->
+  <audio id="bg-sound" loop preload="auto">
+    <source src="../../assets/sounds/som_fundo.wav" type="audio/wav">
+  </audio>
+
+  <!-- scripts -->
+  <script src="../config/defaults.js"></script>
+  <script src="../services/activityMonitor.js"></script>
+  <script src="../services/scheduler.js"></script>
+  <script src="../services/notificationService.js"></script>
+  <script src="../services/medicationService.js"></script>
+  <script src="../services/scheduleService.js"></script>
+  <script src="../mascot/mascot.js"></script>
+  <script src="../components/settings.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "aquanauta",
+  "version": "1.0.0",
+  "description": "Aplicacao desktop para promover bem-estar durante uso prolongado do computador",
+  "main": "main.js",
+"scripts": {
+  "start": "electron .",
+  "dev": "electron . --dev"
+},
+  "keywords": [
+    "saude",
+    "bem-estar",
+    "pomodoro",
+    "hidratacao",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^41.2.0"
+  },
+  "dependencies": {
+    "cross-env": "^10.1.0"
+  }
+}

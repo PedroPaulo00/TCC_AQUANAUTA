@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aquanauta - Notificacao</title>
+  <style>
+    @font-face {
+      font-family: 'Frutiger';
+      font-style: normal;
+      src: local('Frutiger'), url('../../assets/fonts/Frutiger.woff') format('woff');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: transparent;
+      overflow: hidden;
+      font-family: 'Frutiger', "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .notification-window {
+      width: 380px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      box-shadow:
+        2px 2px 16px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+      position: relative;
+      z-index: 0;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    .notification-window::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 8px;
+      background:
+        linear-gradient(transparent 20%, rgba(255, 255, 255, 0.7) 40%, transparent 41%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)),
+        hsl(180, 100%, 40%);
+      opacity: 0.55;
+    }
+
+    .notification-window::after {
+      content: "";
+      position: absolute;
+      z-index: -10;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+    }
+
+    .notif-body {
+      background: rgba(255, 255, 255, 0.92);
+      margin: 4px;
+      border-radius: 6px;
+      padding: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .notif-mascot {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      border-radius: 8px;
+    }
+
+    .notif-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .notif-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .notif-message {
+      font-size: 9pt;
+      color: #333333;
+      line-height: 1.4;
+    }
+
+    .notif-dismiss {
+      padding: 6px 18px;
+      background:
+        radial-gradient(farthest-corner at bottom center, rgba(255,255,255,0.7), transparent),
+        linear-gradient(to bottom, #5ab800, #80FF00);
+      border: 1px solid #4a9900;
+      border-radius: 9999px;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 9pt;
+      cursor: pointer;
+      transition: all 200ms ease;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .notif-dismiss::after {
+      content: "";
+      position: absolute;
+      top: 2px; left: 8px;
+      width: calc(100% - 16px); height: 40%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.1));
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .notif-dismiss:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .notif-dismiss:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* efeito slidein */
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* chacoalar por 2 segundos */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10% { transform: translateX(-6px); }
+      20% { transform: translateX(6px); }
+      30% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      50% { transform: translateX(-3px); }
+      60% { transform: translateX(3px); }
+      70% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+      90% { transform: translateX(-1px); }
+    }
+
+    /* piscar verde por 2 seg */
+    @keyframes greenBlink {
+      0%, 100% { box-shadow: 2px 2px 16px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.9); }
+      50% { box-shadow: 0 0 20px 6px rgba(128, 255, 0, 0.7), inset 0 0 0 1px rgba(128, 255, 0, 0.9); }
+    }
+
+    .notification-window.attention {
+      animation: slideIn 0.4s ease-out, shake 0.5s ease-in-out 0.4s 4, greenBlink 0.5s ease-in-out 0s 4;
+    }
+  </style>
+</head>
+<body>
+  <div class="notification-window" id="notif-container">
+    <div class="notif-body">
+      <img class="notif-mascot" id="notif-mascot" src="" alt="Aquanauta" draggable="false">
+      <div class="notif-info">
+        <div class="notif-title" id="notif-title"></div>
+        <div class="notif-message" id="notif-message"></div>
+        <div style="margin-top: 6px;">
+          <button class="notif-dismiss" id="btn-dismiss">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="notif-sound" preload="auto">
+    <source src="../../assets/sounds/notification.wav" type="audio/wav">
+  </audio>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    const container = document.getElementById('notif-container');
+    const mascotEl = document.getElementById('notif-mascot');
+    const titleEl = document.getElementById('notif-title');
+    const messageEl = document.getElementById('notif-message');
+    const dismissBtn = document.getElementById('btn-dismiss');
+    const audioEl = document.getElementById('notif-sound');
+
+    let currentType = null;
+
+    ipcRenderer.on('show-notification', (event, data) => {
+      mascotEl.src = data.mascotPath;
+      titleEl.textContent = data.title;
+      messageEl.textContent = data.message;
+      currentType = data.type || null;
+
+      if (data.playSound) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(() => {});
+      }
+
+      container.classList.remove('attention');
+      void container.offsetWidth;
+      container.classList.add('attention');
+
+      setTimeout(() => {
+        container.classList.remove('attention');
+      }, 2000);
+    });
+
+    dismissBtn.addEventListener('click', () => {
+      ipcRenderer.send('dismiss-notification', currentType);
+    });
+  </script>
+</body>
+</html>
