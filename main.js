@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, screen, shell } = require('electron');
 const path = require('path');
 
 app.commandLine.appendSwitch('disable-gpu-vsync');
@@ -176,6 +176,10 @@ ipcMain.handle('get-asset-path', (event, ...segments) => {
 
 ipcMain.on('show-popup-notification', (event, data) => {
   showNotificationPopup(data);
+});
+
+ipcMain.on('open-external', (event, url) => {
+  shell.openExternal(url);
 });
 
 ipcMain.on('dismiss-notification', (event, dismissedType) => {

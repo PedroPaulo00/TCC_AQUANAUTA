@@ -140,22 +140,24 @@
       type,
       isLong ? 'Pausa Longa!' : 'Hora da Pausa!',
       isLong
-        ? `Voce completou ${data.cycle} ciclos. Descanse bem!`
+        ? `Você completou ${data.cycle} ciclos. Descanse bem!`
         : `Ciclo ${data.cycle} completo. Descanse um pouco!`
     );
   });
 
   scheduler.on('breakComplete', () => {
     mascot.say('Pausa terminou! Hora de voltar ao trabalho.', 5000, 'break');
+    notificationService.show('break', 'Fim da Pausa!', 'Sua pausa acabou. Hora de voltar ao trabalho!');
   });
 
   scheduler.on('longBreakComplete', () => {
-    mascot.say('Pausa longa concluida! Pronto para mais?', 5000, 'longBreak');
+    mascot.say('Pausa longa concluída! Pronto para mais?', 5000, 'longBreak');
+    notificationService.show('longBreak', 'Fim da Pausa Longa!', 'Pausa longa encerrada. Pronto para mais ciclos?');
   });
 
   function onHealthTimerTrigger(name) {
     const titles = {
-      water: 'Hidratacao',
+      water: 'Hidratação',
       stretch: 'Alongamento',
       eyes: 'Descanso dos Olhos',
     };
@@ -197,7 +199,7 @@
   // monitorar eventos de atividade
   activityMonitor.on('inactive', () => {
     activityDot.classList.add('inactive');
-    activityStatus.textContent = 'Usuario inativo';
+    activityStatus.textContent = 'Usuário inativo';
     waterTimer.stop();
     stretchTimer.stop();
     eyesTimer.stop();
@@ -299,7 +301,7 @@
     updateBgAudio();
     applyHealthRowVisibility(newConfig.toggles);
     syncHealthDisplays();
-    mascot.say('Configuracoes salvas com sucesso!', 4000);
+    mascot.say('Configurações salvas com sucesso!', 4000);
   };
 
   // modal sobre
@@ -313,6 +315,11 @@
 
   aboutModal.addEventListener('click', (e) => {
     if (e.target === aboutModal) aboutModal.style.display = 'none';
+    const socialBtn = e.target.closest('.social-btn');
+    if (socialBtn) {
+      const url = socialBtn.dataset.url;
+      if (url && window.electronAPI) window.electronAPI.openExternal(url);
+    }
   });
 
   // timers personalizados
@@ -493,13 +500,13 @@
   // ============================================================
 
   const WEEKDAY_LABELS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-  const WEEKDAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+  const WEEKDAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
   function formatDaysSummary(days) {
     if (!days || days.length === 0) return 'Nenhum dia';
     if (days.length === 7) return 'Todo dia';
     const sortedWeekdays = [1, 2, 3, 4, 5].every(d => days.includes(d)) && days.length === 5;
-    if (sortedWeekdays) return 'Dias uteis';
+    if (sortedWeekdays) return 'Dias úteis';
     const weekendOnly = days.length === 2 && days.includes(0) && days.includes(6);
     if (weekendOnly) return 'Fim de semana';
     return days.slice().sort().map(d => WEEKDAY_NAMES[d]).join(', ');
@@ -568,7 +575,7 @@
       const span = document.createElement('span');
       span.className = 'form-section-hint';
       span.style.marginBottom = '0';
-      span.textContent = 'Nenhum horario adicionado.';
+      span.textContent = 'Nenhum horário adicionado.';
       medTimesListEl.appendChild(span);
       return;
     }
@@ -583,7 +590,7 @@
         rm.type = 'button';
         rm.className = 'time-chip-remove';
         rm.textContent = '×';
-        rm.title = 'Remover horario';
+        rm.title = 'Remover horário';
         rm.addEventListener('click', () => {
           medFormTimes.splice(idx, 1);
           renderMedTimesList();
@@ -612,8 +619,8 @@
       card.innerHTML = `
         <img class="med-card-icon" src="../../assets/mascote/noti_medication.png" alt="${item.name}" draggable="false">
         <div class="med-card-info">
-          <div class="med-card-name">${escapeHtml(item.name)}${isNext ? ` <span class="upcoming-badge">proximo ${next.hhmm}</span>` : ''}</div>
-          <div class="med-card-meta">${times || 'sem horarios'} - ${formatDaysSummary(item.days)}</div>
+          <div class="med-card-name">${escapeHtml(item.name)}${isNext ? ` <span class="upcoming-badge">próximo ${next.hhmm}</span>` : ''}</div>
+          <div class="med-card-meta">${times || 'sem horários'} - ${formatDaysSummary(item.days)}</div>
           ${item.dose ? `<div class="med-card-meta">${escapeHtml(item.dose)}</div>` : ''}
           ${item.notes ? `<div class="med-card-meta">${escapeHtml(item.notes)}</div>` : ''}
         </div>
@@ -732,10 +739,10 @@
   });
 
   medicationManager.onTrigger = (item, hhmm) => {
-    const title = `Hora do remedio: ${item.name}`;
+    const title = `Hora do remédio: ${item.name}`;
     const parts = [];
     if (item.dose) parts.push(item.dose);
-    parts.push(`Horario: ${hhmm}`);
+    parts.push(`Horário: ${hhmm}`);
     if (item.notes) parts.push(item.notes);
     const message = parts.join(' • ');
     mascot.say(`${item.name} - ${hhmm}`, 8000, 'medication');
@@ -764,8 +771,8 @@
   let editingScheduleId = null;
 
   const SCHEDULE_CATEGORY_LABELS = {
-    sleep: 'Dormir', wake: 'Acordar', lunch: 'Almoco',
-    breakfast: 'Cafe da manha', dinner: 'Jantar',
+    sleep: 'Dormir', wake: 'Acordar', lunch: 'Almoço',
+    breakfast: 'Café da manhã', dinner: 'Jantar',
     work: 'Trabalho', study: 'Estudo', computer: 'Computador',
     custom: 'Personalizado',
   };
@@ -804,7 +811,7 @@
         card.innerHTML = `
           <img class="schedule-card-icon" src="../../assets/mascote/noti_${mascotKey}.png" alt="${item.name}" draggable="false">
           <div class="schedule-card-info">
-            <div class="schedule-card-name">${escapeHtml(item.name)}${isNext ? ` <span class="upcoming-badge">proximo ${next.hhmm}</span>` : ''}</div>
+            <div class="schedule-card-name">${escapeHtml(item.name)}${isNext ? ` <span class="upcoming-badge">próximo ${next.hhmm}</span>` : ''}</div>
             <div class="schedule-card-meta">${hhmm} - ${SCHEDULE_CATEGORY_LABELS[item.category] || ''}${preAlertTxt}</div>
             <div class="schedule-card-meta">${formatDaysSummary(item.days)}</div>
           </div>
@@ -916,10 +923,10 @@
     let title, message;
     if (kind === 'prealert') {
       title = `Em ${item.preAlertMinutes} min: ${item.name}`;
-      message = `${label} as ${hhmm}. Prepare-se!`;
+      message = `${label} às ${hhmm}. Prepare-se!`;
     } else {
       title = `${label}: ${item.name}`;
-      message = `Horario agendado: ${hhmm}`;
+      message = `Horário agendado: ${hhmm}`;
     }
     mascot.say(`${item.name}`, 8000, mascotKey);
     notificationService.show(mascotKey, title, message, 'schedule_' + item.id);

@@ -58,13 +58,16 @@
     }
 
     .notif-body {
-      background: rgba(255, 255, 255, 0.92);
+      background:
+        linear-gradient(rgba(10, 30, 70, 0.6), rgba(10, 30, 70, 0.6)),
+        url('../../assets/bacground/bacground.jpg') center / cover no-repeat;
       margin: 4px;
       border-radius: 6px;
       padding: 14px;
       display: flex;
       gap: 14px;
       align-items: center;
+      font-family: 'Frutiger', "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
     }
 
     .notif-mascot {
@@ -84,12 +87,13 @@
     .notif-title {
       font-size: 11pt;
       font-weight: 700;
-      color: #000000;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
     }
 
     .notif-message {
       font-size: 9pt;
-      color: #333333;
+      color: #b8d8f0;
       line-height: 1.4;
     }
 

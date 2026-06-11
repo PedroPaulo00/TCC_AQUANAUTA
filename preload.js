@@ -10,4 +10,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('show-popup-notification', { type, title, message, playSound }),
   onNotificationDismissed: (callback) =>
     ipcRenderer.on('notification-dismissed', (event, type) => callback(type)),
+  openExternal: (url) => ipcRenderer.send('open-external', url),
 });

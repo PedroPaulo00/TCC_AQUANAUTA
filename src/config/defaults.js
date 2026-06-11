@@ -25,29 +25,29 @@ const DEFAULT_CONFIG = {
     /*
     TEMPO DE INATIVIDADE
     alterar este valor (em segundos) para definir quanto tempo sem
-    atividade do mouse/teclado o sistema considera o usuario como inativo
-    valor atual é 30 segundos (para teste). eu recomendo para prodção: 120-300
+    atividade do mouse/teclado o sistema considera o usuário como inativo
+    valor atual é 30 segundos (para teste). eu recomendo para produção: 120-300
     */
     inactivityThreshold: 30,
   },
 };
 
 /*
-Mensagens do mascote por tipo de notificacao
+Mensagens do mascote por tipo de notificação
  */
 
 const MASCOT_MESSAGES = {
   water: [
-    'Hora de beber agua! Mantenha-se hidratado.',
-    'Que tal um copo de agua? Seu corpo agradece!',
-    'Hidratacao e fundamental! Beba agua agora.',
-    'Lembre-se: agua e vida! Tome um gole.',
+    'Hora de beber água! Mantenha-se hidratado.',
+    'Que tal um copo de água? Seu corpo agradece!',
+    'Hidratação é fundamental! Beba água agora.',
+    'Lembre-se: água é vida! Tome um gole.',
   ],
   stretch: [
     'Hora de alongar! Levante e estique o corpo.',
-    'Seus musculos precisam de atencao. Alongue-se!',
-    'Faca uma pausa para alongar. Seu corpo merece!',
-    'Alongamento rapido: estique bracos e pernas.',
+    'Seus músculos precisam de atenção. Alongue-se!',
+    'Faça uma pausa para alongar. Seu corpo merece!',
+    'Alongamento rápido: estique braços e pernas.',
   ],
   eyes: [
     'Regra 20-20-20: olhe para algo a 6 metros por 20 segundos.',
@@ -61,15 +61,15 @@ const MASCOT_MESSAGES = {
     'Seu ciclo de trabalho terminou. Descanse!',
   ],
   longBreak: [
-    'Pausa longa! Voce completou todos os ciclos.',
+    'Pausa longa! Você completou todos os ciclos.',
     'Excelente trabalho! Hora de uma pausa mais longa.',
-    'Voce merece! Descanse bem nessa pausa longa.',
+    'Você merece! Descanse bem nessa pausa longa.',
   ],
   welcome: [
-    'Ola! Eu sou o Aquanauta. Vou te ajudar a manter habitos saudaveis!',
+    'Olá! Eu sou o Aquanauta. Vou te ajudar a manter hábitos saudáveis!',
   ],
   idle: [
-    'Parece que voce se ausentou. Bem-vindo de volta!',
-    'Detectei que voce voltou. Reiniciando contadores!',
+    'Parece que você se ausentou. Bem-vindo de volta!',
+    'Detectei que você voltou. Reiniciando contadores!',
   ],
 };

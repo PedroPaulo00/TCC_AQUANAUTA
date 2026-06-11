@@ -12,8 +12,8 @@ dados em localStorage: aquanauta-schedule
 const SCHEDULE_CATEGORIES = {
   sleep:    { label: 'Dormir',      mascot: 'sleep'    },
   wake:     { label: 'Acordar',     mascot: 'wake'     },
-  lunch:    { label: 'Almoco',      mascot: 'lunch'    },
-  breakfast:{ label: 'Cafe da manha', mascot: 'lunch'  },
+  lunch:    { label: 'Almoço',      mascot: 'lunch'    },
+  breakfast:{ label: 'Café da manhã', mascot: 'lunch'  },
   dinner:   { label: 'Jantar',      mascot: 'lunch'    },
   work:     { label: 'Trabalho',    mascot: 'routine'  },
   study:    { label: 'Estudo',      mascot: 'routine'  },

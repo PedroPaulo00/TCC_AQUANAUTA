@@ -39,7 +39,7 @@ class SettingsManager {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(this.config));
     } catch (e) {
-      // amarzenamento cheeio ou inacessivel
+      // armazenamento cheio ou inacessível
     }
     if (this.onSave) {
       this.onSave(this.config);
