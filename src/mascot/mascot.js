@@ -12,6 +12,14 @@ class Mascot {
     this.cycleInterval = null;
     this.shuffledTips = [];
     this.tipIndex = 0;
+    this.lastMascotIndex = -1;
+    this.mascotCycleImages = [
+      '../../assets/mascote/masc1.png',
+      '../../assets/mascote/masc2.png',
+      '../../assets/mascote/masc3.png',
+      '../../assets/mascote/masc4.png',
+      '../../assets/mascote/masc5.png',
+    ];
 
     this.imageMap = {
       water: '../../assets/mascote/noti_water.png',
@@ -118,12 +126,21 @@ class Mascot {
     this.tipIndex = 0;
   }
 
+  _pickCycleMascot() {
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * this.mascotCycleImages.length);
+    } while (idx === this.lastMascotIndex);
+    this.lastMascotIndex = idx;
+    return this.mascotCycleImages[idx];
+  }
+
   _showNextTip() {
     if (this.tipIndex >= this.shuffledTips.length) {
       this._shuffleTips();
     }
     this.speechText.textContent = this.shuffledTips[this.tipIndex++];
-    this.mascotImg.src = this.imageMap.default;
+    this.mascotImg.src = this._pickCycleMascot();
   }
 
   _startCycle() {

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aquanauta</title>
+  <style>
+    @font-face {
+      font-family: 'Frutiger';
+      font-style: normal;
+      src: local('Frutiger'), url('../../assets/fonts/Frutiger.woff') format('woff');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 400px;
+      height: 330px;
+      background: transparent;
+      overflow: hidden;
+      font-family: 'Frutiger', 'Segoe UI', 'SegoeUI', sans-serif;
+      -webkit-app-region: no-drag;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       SPLASH WRAPPER
+    ═══════════════════════════════════════════ */
+    .splash {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      animation:
+        splash-in  0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+        splash-out 0.75s ease-in 4.25s both;
+    }
+
+    /* ═══════════════════════════════════════════
+       ORB AREA  —  relative container for all rings
+    ═══════════════════════════════════════════ */
+    .orb-area {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* --- Expanding pulse rings --- */
+    .pulse-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1.5px solid rgba(100, 210, 255, 0.52);
+      width: 130px;
+      height: 130px;
+      animation: ring-expand 2.6s ease-out infinite;
+      pointer-events: none;
+    }
+    .pulse-ring:nth-child(2) { animation-delay: 0.87s; }
+    .pulse-ring:nth-child(3) { animation-delay: 1.74s; }
+
+    /* --- Decorative rotation rings --- */
+    .deco-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .deco-ring-1 {
+      width: 158px; height: 158px;
+      top: calc(50% - 79px); left: calc(50% - 79px);
+      border: 1.5px dashed rgba(160, 224, 255, 0.36);
+      animation: rot-cw 7s linear infinite;
+    }
+    .deco-ring-2 {
+      width: 188px; height: 188px;
+      top: calc(50% - 94px); left: calc(50% - 94px);
+      border: 1px solid rgba(110, 196, 255, 0.20);
+      animation: rot-ccw 11s linear infinite;
+    }
+    .deco-ring-3 {
+      width: 216px; height: 216px;
+      top: calc(50% - 108px); left: calc(50% - 108px);
+      border: 1px solid rgba(180, 234, 255, 0.12);
+      animation: rot-cw 16s linear infinite;
+    }
+
+    /* --- Main glass orb --- */
+    .orb {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: radial-gradient(
+        ellipse at 36% 28%,
+        rgba(255, 255, 255, 0.96)  0%,
+        rgba(196, 232, 255, 0.88) 18%,
+        rgba(94,  184, 255, 0.72) 45%,
+        rgba(24,  107, 222, 0.81) 72%,
+        rgba(6,   36,  130, 0.92) 100%
+      );
+      box-shadow:
+        inset 0 2px 10px rgba(255, 255, 255, 0.70),
+        inset 0 -4px 18px rgba(0,   55, 200, 0.36),
+        0 0  30px rgba(80,  175, 255, 0.52),
+        0 0  65px rgba(40,  135, 255, 0.24),
+        0 8px 22px rgba(0,   0,    0, 0.28);
+      animation:
+        orb-in   0.70s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s  both,
+        orb-glow 3.2s  ease-in-out                        1.0s  infinite;
+    }
+
+    /* specular gloss highlight */
+    .orb::before {
+      content: '';
+      position: absolute;
+      top: 8%; left: 14%;
+      width: 58%; height: 42%;
+      background: radial-gradient(
+        ellipse at 50% 38%,
+        rgba(255, 255, 255, 0.88)  0%,
+        rgba(255, 255, 255, 0.28) 55%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* bottom reflection */
+    .orb::after {
+      content: '';
+      position: absolute;
+      bottom: 9%; left: 22%;
+      width: 56%; height: 20%;
+      background: radial-gradient(
+        ellipse,
+        rgba(130, 205, 255, 0.36) 0%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orb-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 66px;
+      height: 66px;
+      filter:
+        drop-shadow(0 2px 6px rgba(0, 40, 160, 0.42))
+        brightness(1.06);
+      animation: icon-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s both;
+    }
+
+    /* ═══════════════════════════════════════════
+       TEXT
+    ═══════════════════════════════════════════ */
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      animation: text-in 0.65s ease 0.9s both;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 9px;
+      padding-left: 9px;
+      color: #ffffff;
+      text-shadow:
+        0 0 12px rgba(100, 210, 255, 1.00),
+        0 0 28px rgba(55,  165, 255, 0.70),
+        0 0 52px rgba(25,  120, 255, 0.36),
+        0 1px 3px rgba(0,    0,    0, 0.40);
+      animation: letters-in 0.65s ease 0.9s both;
+    }
+
+    .tagline {
+      font-size: 8.5px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      padding-left: 4px;
+      color: rgba(175, 225, 255, 0.70);
+      text-shadow: 0 0 8px rgba(100, 200, 255, 0.42);
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════
+       FLOATING PARTICLES
+    ═══════════════════════════════════════════ */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 35%,
+        rgba(255, 255, 255, 0.92),
+        rgba(120, 200, 255, 0.54)
+      );
+      box-shadow: 0 0 5px rgba(100, 200, 255, 0.38);
+      animation: float-up linear infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       KEYFRAMES
+    ═══════════════════════════════════════════ */
+    @keyframes splash-in {
+      from { opacity: 0; transform: scale(0.80); }
+      to   { opacity: 1; transform: scale(1.00); }
+    }
+    @keyframes splash-out {
+      from { opacity: 1; transform: scale(1.00); }
+      to   { opacity: 0; transform: scale(1.07); }
+    }
+
+    @keyframes orb-in {
+      from { transform: scale(0.12); opacity: 0; }
+      to   { transform: scale(1.00); opacity: 1; }
+    }
+    @keyframes orb-glow {
+      0%, 100% {
+        box-shadow:
+          inset 0 2px 10px rgba(255,255,255,0.70),
+          inset 0 -4px 18px rgba(0,55,200,0.36),
+          0 0  30px rgba(80,175,255,0.52),
+          0 0  65px rgba(40,135,255,0.24),
+          0 8px 22px rgba(0,0,0,0.28);
+      }
+      50% {
+        box-shadow:
+          inset 0 2px 10px rgba(255,255,255,0.70),
+          inset 0 -4px 18px rgba(0,55,200,0.36),
+          0 0  50px rgba(80,175,255,0.75),
+          0 0 105px rgba(40,135,255,0.42),
+          0 8px 22px rgba(0,0,0,0.28);
+      }
+    }
+
+    @keyframes icon-in {
+      from { transform: translate(-50%,-50%) scale(0.18); opacity: 0; }
+      to   { transform: translate(-50%,-50%) scale(1.00); opacity: 1; }
+    }
+
+    @keyframes ring-expand {
+      0%   { width: 130px; height: 130px; opacity: 0.65; }
+      100% { width: 244px; height: 244px; opacity: 0.00; }
+    }
+
+    @keyframes rot-cw  {
+      from { transform: rotate(0deg);   }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes rot-ccw {
+      from { transform: rotate(0deg);    }
+      to   { transform: rotate(-360deg); }
+    }
+
+    @keyframes text-in {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    @keyframes letters-in {
+      from { letter-spacing: 1px; padding-left: 1px; }
+      to   { letter-spacing: 9px; padding-left: 9px; }
+    }
+
+    @keyframes float-up {
+      0%   { opacity: 0;   transform: translateY(0px)   scale(1.0); }
+      8%   { opacity: 0.8; }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0;   transform: translateY(-320px) scale(0.4); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="splash">
+
+    <div class="orb-area">
+      <!-- expanding pulse rings -->
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+
+      <!-- decorative rotation rings -->
+      <div class="deco-ring deco-ring-1"></div>
+      <div class="deco-ring deco-ring-2"></div>
+      <div class="deco-ring deco-ring-3"></div>
+
+      <!-- glass orb with app icon -->
+      <div class="orb">
+        <img src="../../assets/icons/app.png" class="orb-icon" alt="Aquanauta">
+      </div>
+    </div>
+
+    <div class="title-block">
+      <div class="title">AQUANAUTA</div>
+      <div class="tagline">Bem-estar digital</div>
+    </div>
+
+  </div>
+
+  <script>
+    // Floating glass bubbles
+    const pts = [
+      { s: 6, x: 55,  b: 42, delay: 0.3,  dur: 3.8 },
+      { s: 4, x: 320, b: 30, delay: 0.9,  dur: 4.4 },
+      { s: 7, x: 148, b: 48, delay: 1.5,  dur: 3.5 },
+      { s: 4, x: 265, b: 36, delay: 0.5,  dur: 4.7 },
+      { s: 5, x: 195, b: 52, delay: 2.1,  dur: 3.2 },
+      { s: 6, x: 354, b: 28, delay: 1.2,  dur: 4.1 },
+      { s: 3, x: 88,  b: 40, delay: 1.9,  dur: 3.7 },
+      { s: 5, x: 178, b: 24, delay: 0.7,  dur: 5.0 },
+      { s: 4, x: 230, b: 55, delay: 2.6,  dur: 3.4 },
+      { s: 5, x: 110, b: 32, delay: 1.1,  dur: 4.3 },
+    ];
+    pts.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'particle';
+      Object.assign(el.style, {
+        width:             p.s + 'px',
+        height:            p.s + 'px',
+        left:              p.x + 'px',
+        bottom:            p.b + 'px',
+        animationDelay:    p.delay + 's',
+        animationDuration: p.dur   + 's',
+      });
+      document.body.appendChild(el);
+    });
+  </script>
+
+</body>
+</html>

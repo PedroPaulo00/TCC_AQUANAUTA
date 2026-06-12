@@ -76,6 +76,7 @@
   const btnClose = document.getElementById('btn-close');
 
   let editingTimerId = null;
+  let timerImageUrl = null;
   let bgSoundEnabled = config.toggles.bgSound !== false;
 
   function updateBgAudio() {
@@ -330,7 +331,7 @@
   }
 
   function saveCustomTimersToStorage() {
-    const data = customTimers.map(ct => ({ id: ct.id, name: ct.name, minutes: ct.minutes }));
+    const data = customTimers.map(ct => ({ id: ct.id, name: ct.name, minutes: ct.minutes, imageUrl: ct.imageUrl || null }));
     try {
       localStorage.setItem('aquanauta-custom-timers', JSON.stringify(data));
     } catch (e) {}
@@ -339,7 +340,7 @@
   function loadCustomTimersFromStorage() {
     try {
       const data = JSON.parse(localStorage.getItem('aquanauta-custom-timers') || '[]');
-      data.forEach(item => addCustomTimer(item.name, item.minutes, item.id, false));
+      data.forEach(item => addCustomTimer(item.name, item.minutes, item.id, false, item.imageUrl || null));
     } catch (e) {}
     updateCustomTimersEmptyState();
   }
@@ -348,9 +349,10 @@
     const div = document.createElement('div');
     div.className = 'custom-timer';
     div.id = 'custom-timer-' + ct.id;
+    const iconSrc = ct.imageUrl || '../../assets/icons/personalizado.png';
 
     div.innerHTML = `
-      <img src="../../assets/icons/personalizado.png" class="custom-timer-icon" alt="${ct.name}" draggable="false">
+      <img src="${iconSrc}" class="custom-timer-icon" alt="${ct.name}" draggable="false">
       <div class="custom-timer-info">
         <span class="custom-timer-name">${ct.name}</span>
         <span class="custom-timer-value" id="ct-display-${ct.id}">${formatTime(ct.minutes * 60)}</span>
@@ -376,7 +378,7 @@
     customTimersContainer.appendChild(div);
   }
 
-  function addCustomTimer(name, minutes, id = null, save = true) {
+  function addCustomTimer(name, minutes, id = null, save = true, imageUrl = null) {
     const timerId = id || generateId();
 
     const timer = new HealthTimer(timerId, minutes, true);
@@ -392,7 +394,7 @@
     };
     timer.start();
 
-    const ct = { id: timerId, name, minutes, timer };
+    const ct = { id: timerId, name, minutes, imageUrl: imageUrl || null, timer };
     customTimers.push(ct);
     renderCustomTimerItem(ct);
     updateCustomTimersEmptyState();
@@ -400,18 +402,21 @@
     if (save) saveCustomTimersToStorage();
   }
 
-  function updateCustomTimer(id, name, minutes) {
+  function updateCustomTimer(id, name, minutes, imageUrl = null) {
     const ct = customTimers.find(c => c.id === id);
     if (!ct) return;
 
     ct.name = name;
     ct.minutes = minutes;
+    ct.imageUrl = imageUrl;
     ct.timer.setInterval(minutes);
 
     const div = document.getElementById('custom-timer-' + id);
     if (div) {
       div.querySelector('.custom-timer-name').textContent = name;
-      div.querySelector('.custom-timer-icon').alt = name;
+      const iconEl = div.querySelector('.custom-timer-icon');
+      iconEl.src = imageUrl || '../../assets/icons/personalizado.png';
+      iconEl.alt = name;
     }
 
     saveCustomTimersToStorage();
@@ -433,8 +438,13 @@
 
   // modal timer
 
+  const timerIconInput = document.getElementById('timer-icon-input');
+  const timerIconPreview = document.getElementById('timer-icon-preview');
+  const btnClearTimerIcon = document.getElementById('btn-timer-icon-clear');
+
   function openTimerModal(editId = null) {
     editingTimerId = editId;
+    timerIconInput.value = '';
 
     if (editId) {
       const ct = customTimers.find(c => c.id === editId);
@@ -442,12 +452,18 @@
       timerModalTitle.textContent = 'Editar Temporizador';
       timerNameInput.value = ct.name;
       timerMinutesInput.value = ct.minutes;
+      timerImageUrl = ct.imageUrl || null;
+      timerIconPreview.src = timerImageUrl || '../../assets/icons/personalizado.png';
       btnDeleteTimer.style.display = 'inline-block';
+      btnClearTimerIcon.style.display = timerImageUrl ? 'inline-block' : 'none';
     } else {
       timerModalTitle.textContent = 'Adicionar Temporizador';
       timerNameInput.value = '';
       timerMinutesInput.value = '10';
+      timerImageUrl = null;
+      timerIconPreview.src = '../../assets/icons/personalizado.png';
       btnDeleteTimer.style.display = 'none';
+      btnClearTimerIcon.style.display = 'none';
     }
 
     timerModal.style.display = 'flex';
@@ -457,7 +473,28 @@
   function closeTimerModal() {
     timerModal.style.display = 'none';
     editingTimerId = null;
+    timerImageUrl = null;
   }
+
+  timerIconInput.addEventListener('change', () => {
+    const file = timerIconInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      timerImageUrl = e.target.result;
+      timerIconPreview.src = timerImageUrl;
+      btnClearTimerIcon.style.display = 'inline-block';
+    };
+    reader.onerror = () => { timerImageUrl = null; };
+    reader.readAsDataURL(file);
+  });
+
+  btnClearTimerIcon.addEventListener('click', () => {
+    timerImageUrl = null;
+    timerIconPreview.src = '../../assets/icons/personalizado.png';
+    timerIconInput.value = '';
+    btnClearTimerIcon.style.display = 'none';
+  });
 
   btnAddTimer.addEventListener('click', () => openTimerModal(null));
 
@@ -475,10 +512,10 @@
     if (!minutes || minutes < 1) { timerMinutesInput.focus(); return; }
 
     if (editingTimerId) {
-      updateCustomTimer(editingTimerId, name, minutes);
+      updateCustomTimer(editingTimerId, name, minutes, timerImageUrl);
       mascot.say(`Temporizador "${name}" atualizado!`, 4000);
     } else {
-      addCustomTimer(name, minutes);
+      addCustomTimer(name, minutes, null, true, timerImageUrl);
       mascot.say(`Temporizador "${name}" adicionado!`, 4000);
     }
 

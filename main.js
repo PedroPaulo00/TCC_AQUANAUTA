@@ -15,6 +15,7 @@ function createWindow() {
     frame: false,
     transparent: true,
     resizable: false,
+    show: false,
     icon: path.join(__dirname, 'assets', 'icons', 'app.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -142,10 +143,45 @@ function createTray() {
   });
 }
 
+function createSplash() {
+  const { width: sw, height: sh } = screen.getPrimaryDisplay().workAreaSize;
+  const W = 400, H = 330;
+
+  const splash = new BrowserWindow({
+    width: W,
+    height: H,
+    x: Math.round((sw - W) / 2),
+    y: Math.round((sh - H) / 2),
+    frame: false,
+    transparent: true,
+    resizable: false,
+    skipTaskbar: true,
+    alwaysOnTop: true,
+    show: false,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  splash.loadFile(path.join(__dirname, 'src', 'ui', 'splash.html'));
+
+  splash.once('ready-to-show', () => splash.show());
+
+  setTimeout(() => {
+    if (!splash.isDestroyed()) splash.close();
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  }, 5000);
+}
+
 app.whenReady().then(() => {
   createWindow();
   createNotificationWindow();
   createTray();
+  createSplash();
 });
 
 app.on('window-all-closed', () => {
