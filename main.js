@@ -1,12 +1,13 @@
-const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, screen, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, Tray, nativeImage, screen, shell } = require('electron');
 const path = require('path');
 
 app.commandLine.appendSwitch('disable-gpu-vsync');
 app.disableHardwareAcceleration();
 
-let mainWindow = null;
-let notifWindow = null;
-let tray = null;
+let mainWindow    = null;
+let notifWindow   = null;
+let tray          = null;
+let trayMenuWin   = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -106,41 +107,85 @@ function showNotificationPopup(data) {
 
 }
 
+function showTrayMenu() {
+  // Toggle: fecha se já estiver aberto
+  if (trayMenuWin && !trayMenuWin.isDestroyed()) {
+    trayMenuWin.close();
+    return;
+  }
+
+  const bounds  = tray.getBounds();
+  const display = screen.getPrimaryDisplay();
+  const { width: sw, height: sh } = display.workAreaSize;
+
+  const W = 210;
+  const H = 98;
+
+  // Centraliza horizontalmente sobre o ícone do tray
+  let x = Math.round(bounds.x + (bounds.width  - W) / 2);
+  // Abre acima se taskbar estiver embaixo, abaixo se estiver em cima
+  let y = bounds.y > sh / 2
+    ? bounds.y - H - 2
+    : bounds.y + bounds.height + 2;
+
+  // Garante que não sai da tela
+  x = Math.max(0, Math.min(x, sw - W));
+  y = Math.max(0, Math.min(y, sh - H));
+
+  trayMenuWin = new BrowserWindow({
+    width: W,
+    height: H,
+    x,
+    y,
+    frame: false,
+    transparent: true,
+    resizable: false,
+    movable: false,
+    skipTaskbar: true,
+    alwaysOnTop: true,
+    focusable: true,
+    show: false,
+    webPreferences: {
+      contextIsolation: false,
+      nodeIntegration: true,
+    },
+  });
+
+  trayMenuWin.loadFile(path.join(__dirname, 'src', 'ui', 'tray-menu.html'));
+
+  trayMenuWin.once('ready-to-show', () => {
+    trayMenuWin.show();
+    trayMenuWin.focus();
+  });
+
+  // Fecha ao perder foco (clicar fora)
+  trayMenuWin.on('blur', () => {
+    if (trayMenuWin && !trayMenuWin.isDestroyed()) trayMenuWin.close();
+  });
+
+  trayMenuWin.on('closed', () => { trayMenuWin = null; });
+}
+
 function createTray() {
   const icon = nativeImage.createFromPath(
     path.join(__dirname, 'assets', 'icons', 'app.png')
   );
   tray = new Tray(icon.resize({ width: 16, height: 16 }));
 
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Abrir Aquanauta',
-      click: () => {
-        if (mainWindow) {
-          mainWindow.show();
-          mainWindow.focus();
-        }
-      },
-    },
-    { type: 'separator' },
-    {
-      label: 'Sair',
-      click: () => {
-        app.isQuitting = true;
-        app.quit();
-      },
-    },
-  ]);
-
   tray.setToolTip('Aquanauta');
-  tray.setContextMenu(contextMenu);
 
-  tray.on('double-click', () => {
-    if (mainWindow) {
-      mainWindow.show();
-      mainWindow.focus();
-    }
+  // Clique simples → abre janela principal
+  tray.on('click', () => {
+    if (mainWindow) { mainWindow.show(); mainWindow.focus(); }
   });
+
+  // Clique duplo → abre janela principal
+  tray.on('double-click', () => {
+    if (mainWindow) { mainWindow.show(); mainWindow.focus(); }
+  });
+
+  // Botão direito → menu customizado Frutiger Aero
+  tray.on('right-click', () => { showTrayMenu(); });
 }
 
 function createSplash() {
@@ -216,6 +261,19 @@ ipcMain.on('show-popup-notification', (event, data) => {
 
 ipcMain.on('open-external', (event, url) => {
   shell.openExternal(url);
+});
+
+ipcMain.on('tray-menu-open', () => {
+  if (trayMenuWin && !trayMenuWin.isDestroyed()) trayMenuWin.close();
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.show();
+    mainWindow.focus();
+  }
+});
+
+ipcMain.on('tray-menu-quit', () => {
+  app.isQuitting = true;
+  app.quit();
 });
 
 ipcMain.on('dismiss-notification', (event, dismissedType) => {
