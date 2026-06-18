@@ -5,7 +5,7 @@
   src: local('Frutiger'), url('../assets/fonts/Frutiger.woff') format('woff');
 }
 
-/* ── Variables ───────────────────────────────────────────── */
+/* variáveis */
 :root {
   --blue-950:  #010810;
   --blue-900:  #020C1C;
@@ -37,7 +37,7 @@
   --radius-xl: 36px;
 }
 
-/* ── Reset ───────────────────────────────────────────────── */
+/* reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
@@ -58,7 +58,7 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; }
 
-/* ── Scrollbar ───────────────────────────────────────────── */
+/* scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--blue-900); }
 ::-webkit-scrollbar-thumb {
@@ -67,9 +67,7 @@ ul { list-style: none; }
 }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #80ccff, #2a85ef); }
 
-/* ══════════════════════════════════════════════════════════
-   BACKGROUND
-══════════════════════════════════════════════════════════ */
+/* background */
 .bg-base {
   position: fixed;
   inset: 0;
@@ -131,12 +129,9 @@ ul { list-style: none; }
   to   { transform: scale(1.12) rotate(-3deg); }
 }
 
-/* ── All sections above bg ───────────────────────────────── */
 nav, section, footer, #particles { position: relative; z-index: 10; }
 
-/* ══════════════════════════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════════════════════════ */
+/* navegação */
 .glass-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -215,9 +210,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
 .music-toggle.playing { color: var(--cyan-light); border-color: rgba(0,200,255,0.5); }
 .music-icon { line-height: 1; }
 
-/* ══════════════════════════════════════════════════════════
-   HERO
-══════════════════════════════════════════════════════════ */
+/* hero */
 .hero {
   min-height: 100vh;      /* fallback para browsers antigos */
   min-height: 100svh;     /* desconta barra de endereço no mobile */
@@ -237,7 +230,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   gap: 72px;
 }
 
-/* ── Hero Orb ────────────────────────────────────────────── */
+/* orbe do hero */
 .hero-orb-wrap {
   position: relative;
   width: 100%;
@@ -346,7 +339,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   filter: drop-shadow(0 3px 10px rgba(0, 40, 160, 0.45)) brightness(1.06);
 }
 
-/* ── Hero Text ───────────────────────────────────────────── */
+/* texto do hero */
 .hero-text {
   display: flex;
   flex-direction: column;
@@ -405,7 +398,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   line-height: 1.75;
 }
 
-/* ── Buttons ─────────────────────────────────────────────── */
+/* botões do hero */
 .hero-actions {
   display: flex;
   align-items: center;
@@ -413,7 +406,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   flex-wrap: wrap;
 }
 
-/* ── Frutiger Aero gloss pill — primary ──────────────────── */
+/* botão principal gloss pill */
 .btn-primary {
   --btn-bg:      #00AAFF;
   --btn-bg-dark: #0058CC;
@@ -485,7 +478,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   background: rgba(255,255,255,0.08);
 }
 
-/* ── Pills ───────────────────────────────────────────────── */
+/* pills de recursos */
 .hero-pills {
   display: flex;
   flex-wrap: wrap;
@@ -500,7 +493,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   color: var(--text-3);
 }
 
-/* ── Scroll hint ─────────────────────────────────────────── */
+/* seta de scroll */
 .hero-scroll-hint {
   margin-top: 56px;
   display: flex;
@@ -515,9 +508,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   transform: rotate(45deg);
 }
 
-/* ══════════════════════════════════════════════════════════
-   FEATURE CARDS
-══════════════════════════════════════════════════════════ */
+/* cards de features */
 .features-section {
   padding: 100px 32px;
 }
@@ -626,9 +617,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   line-height: 1.65;
 }
 
-/* ══════════════════════════════════════════════════════════
-   DOWNLOAD SECTION
-══════════════════════════════════════════════════════════ */
+/* seção de download */
 .download-section {
   padding: 100px 32px;
 }
@@ -739,7 +728,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   margin-bottom: 32px;
 }
 
-/* ── Frutiger Aero gloss pill — download (larger) ────────── */
+/* botão download */
 .btn-download {
   --btn-bg:      #00BBFF;
   --btn-bg-dark: #006EDD;
@@ -804,9 +793,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
 }
 .dl-meta .dot { opacity: 0.4; }
 
-/* ══════════════════════════════════════════════════════════
-   ABOUT
-══════════════════════════════════════════════════════════ */
+/* sobre */
 .about-section { padding: 100px 32px; }
 
 .about-glass {
@@ -910,9 +897,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
 }
 .social-chip.spotify:hover { background: rgba(30,215,96,0.18); border-color: rgba(30,215,96,0.40); color: #1ed760; }
 
-/* ══════════════════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════════════════ */
+/* rodapé */
 .footer {
   padding: 40px 32px;
   border-top: 1px solid rgba(255,255,255,0.06);
@@ -929,9 +914,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
 .footer-copy { font-size: 12.5px; color: var(--text-3); }
 .footer-tech { font-size: 11.5px; color: rgba(100,150,200,0.45); letter-spacing: 0.5px; }
 
-/* ══════════════════════════════════════════════════════════
-   PARTICLES
-══════════════════════════════════════════════════════════ */
+/* partículas */
 #particles {
   position: fixed;
   inset: 0;
@@ -948,9 +931,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   opacity: 0;
 }
 
-/* ══════════════════════════════════════════════════════════
-   REVEAL ANIMATION
-══════════════════════════════════════════════════════════ */
+/* animação de reveal */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -971,9 +952,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
 .features-grid .feat-card:nth-child(7) { transition-delay: 0.35s; }
 .features-grid .feat-card:nth-child(8) { transition-delay: 0.40s; }
 
-/* ══════════════════════════════════════════════════════════
-   KEYFRAMES
-══════════════════════════════════════════════════════════ */
+/* keyframes */
 @keyframes orb-breathe {
   0%, 100% {
     box-shadow:
@@ -1050,12 +1029,9 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   100% { opacity: 0;   transform: translateY(-110vh) scale(0.4); }
 }
 
-/* ══════════════════════════════════════════════════════════
-   EXTRA FRUTIGER AERO / VISTA ENHANCEMENTS
-══════════════════════════════════════════════════════════ */
+/* aprimoramentos visuais aero/vista */
 
-/* ── Lens flare — characteristic of Frutiger Aero ─────────
-   A soft white sun spot in the upper-left of the viewport  */
+/* lens flare no canto superior esquerdo */
 .bg-aurora::before {
   /* extend existing aurora with a lens-flare patch */
 }
@@ -1083,8 +1059,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   to   { opacity: 1.00; transform: scale(1.14); }
 }
 
-/* ── Section title cyan glow underline ─────────────────────
-   Vista / Aero style horizontal accent under headings      */
+/* linha de destaque abaixo dos títulos */
 .section-header .section-title::after {
   content: '';
   display: block;
@@ -1096,9 +1071,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   box-shadow: 0 0 10px rgba(0, 200, 255, 0.65), 0 0 20px rgba(128, 255, 0, 0.35);
 }
 
-/* ── Glass card — Vista DWM "Aero Peek" chrome ─────────────
-   Cards get a bright white silhouette glow + chrome top line
-   on hover — mimics DWM glass window hover highlight        */
+/* contorno de glow no hover dos cards */
 .feat-card:hover {
   outline: 1.5px solid rgba(160, 230, 255, 0.22);
 }
@@ -1109,8 +1082,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   height: 1px;
 }
 
-/* ── Vista water droplet orbs — ambient decoration ─────────
-   Small semi-transparent bubbles float in the background   */
+/* micro-orbes de água ambiente */
 .bg-aurora {
   /* Vista "nature" water micro-orbs via background radials */
 }
@@ -1133,16 +1105,13 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   to   { transform: translateY(-18px) scale(1.06); opacity: 1.0; }
 }
 
-/* ── Vista glass panel "window chrome" top strip ───────────
-   Mimics the faint DWM specular reflection at the top of
-   Aero Glass windows — bright top edge, fades quickly      */
+/* borda superior clara nos painéis de vidro */
 .download-glass,
 .about-glass {
   border-top-color: rgba(255, 255, 255, 0.22);
 }
 
-/* ── Feat-card icon wrap — Vista "glass bead" ──────────────
-   Stronger inner glow, glass-bead feel with highlights     */
+/* ícone do card com glow interno reforçado */
 .feat-icon-wrap {
   background: linear-gradient(160deg,
     rgba(180, 230, 255, 0.22),
@@ -1154,9 +1123,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
     inset 0 -1px 0 rgba(0,100,200,0.12);
 }
 
-/* ── Vista Taskbar-style footer ────────────────────────────
-   Dark glass bar with DWM-style inner top highlight
-   and a subtle "DWM blur" frosted backdrop                 */
+/* rodapé estilo taskbar do vista */
 .footer {
   background: linear-gradient(to bottom,
     rgba(4, 14, 30, 0.92),
@@ -1199,8 +1166,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   pointer-events: none;
 }
 
-/* ── More visible nav glass (Vista taskbar feel) ───────────
-   When scrolled, ramp up the blur and add a stronger glow  */
+/* nav com mais blur e glow ao rolar */
 .glass-nav.scrolled {
   background: rgba(2, 10, 24, 0.82);
   backdrop-filter: blur(30px) saturate(1.6);
@@ -1211,9 +1177,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
     0 4px 32px rgba(0, 0, 0, 0.55);
 }
 
-/* ── About glass gadget "sidebar" style ────────────────────
-   Vista sidebar gadgets had a distinctive rounded glass panel
-   with a thin colored top accent (like a title bar)        */
+/* tira colorida no topo do painel sobre */
 .about-glass::before {
   content: '';
   position: absolute;
@@ -1229,7 +1193,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
-/* ── Download glass — same title-bar treatment ─────────────  */
+/* painel de download, mesmo tratamento de topo */
 .download-glass::before {
   /* override: keep existing sweep + add top strip */
   background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
@@ -1250,9 +1214,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   pointer-events: none;
 }
 
-/* ── Hero orb floor reflection — Vista depth trick ─────────
-   A soft cyan pool of light beneath the orb, like it's
-   sitting on a wet/reflective surface                      */
+/* reflexo de chão abaixo do orbe */
 .hero-orb-wrap::after {
   content: '';
   position: absolute;
@@ -1267,9 +1229,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   filter: blur(4px);
 }
 
-/* ── Vista "Aero Glass" hero panel hint ────────────────────
-   A very faint frosted glass rectangle frames the hero text
-   like a DWM window                                        */
+/* painel de vidro sutil ao redor do texto do hero */
 .hero-text {
   background: linear-gradient(135deg,
     rgba(255,255,255,0.032) 0%,
@@ -1285,15 +1245,11 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
     0 8px 40px rgba(0,0,0,0.18);
 }
 
-/* ── Remove old btn-shimmer from buttons ───────────────────
-   The gloss pill style doesn't use shimmer animation       */
 @keyframes btn-shimmer { 0%, 100% {} }
 
-/* ══════════════════════════════════════════════════════════
-   RESPONSIVE — completo (XL → mobile pequeno)
-══════════════════════════════════════════════════════════ */
+/* responsividade */
 
-/* ── XL screens (≥1400px) — mais espaço e orb maior ──────── */
+/* ≥1400px */
 @media (min-width: 1400px) {
   .hero-inner    { gap: 96px; }
   .hero-orb-wrap { max-width: 460px; }
@@ -1305,13 +1261,13 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .pulse-ring    { width: 210px; height: 210px; }
 }
 
-/* ── Desktop / tablet grande (≤1100px) ───────────────────── */
+/* ≤1100px */
 @media (max-width: 1100px) {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-inner    { gap: 48px; }
 }
 
-/* ── Tablet landscape (≤960px) ───────────────────────────── */
+/* ≤960px */
 @media (max-width: 960px) {
   /* hero */
   .hero {
@@ -1365,7 +1321,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .nav-links { display: none; }
 }
 
-/* ── Tablet portrait (≤768px) ────────────────────────────── */
+/* ≤768px */
 @media (max-width: 768px) {
   .hero { padding: 84px 20px 44px; }
 
@@ -1389,7 +1345,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .footer { padding: 32px 20px; }
 }
 
-/* ── Mobile landscape / mobile grande (≤600px) ──────────── */
+/* ≤600px */
 @media (max-width: 600px) {
   .glass-nav     { padding: 0 16px; }
   .nav-logo-text { font-size: 14px; letter-spacing: 0.5px; }
@@ -1461,7 +1417,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .music-toggle { width: 32px; height: 32px; font-size: 15px; }
 }
 
-/* ── Mobile portrait (≤480px) ───────────────────────────── */
+/* ≤480px */
 @media (max-width: 480px) {
   /* features em 1 coluna */
   .features-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -1502,7 +1458,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .hero-scroll-hint { display: none; }
 }
 
-/* ── Mobile pequeno (≤380px) ────────────────────────────── */
+/* ≤380px */
 @media (max-width: 380px) {
   .hero { padding: 72px 12px 32px; }
   .hero-title   { font-size: 24px; letter-spacing: 3px; padding-left: 3px; }
@@ -1531,7 +1487,7 @@ nav, section, footer, #particles { position: relative; z-index: 10; }
   .bg-base { background-attachment: scroll; }
 }
 
-/* ── Acessibilidade: sem animações para quem preferir ─────── */
+/* acessibilidade: prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

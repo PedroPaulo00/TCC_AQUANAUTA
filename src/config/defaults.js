@@ -1,7 +1,4 @@
-  /*
-  Configs padrão
-  */
-
+// configurações padrão
 const DEFAULT_CONFIG = {
   pomodoro: {
     workDuration: 3,        // minutos
@@ -22,20 +19,11 @@ const DEFAULT_CONFIG = {
     bgSound: true,
   },
   activity: {
-    /*
-    TEMPO DE INATIVIDADE
-    alterar este valor (em segundos) para definir quanto tempo sem
-    atividade do mouse/teclado o sistema considera o usuário como inativo
-    valor atual é 30 segundos (para teste). eu recomendo para produção: 120-300
-    */
-    inactivityThreshold: 30,
+    inactivityThreshold: 30, // tempo em segundos sem atividade para considerar inativo (30 = teste, 120-300 recomendado para produção)
   },
 };
 
-/*
-Mensagens do mascote por tipo de notificação
- */
-
+// mensagens do mascote por tipo de notificação
 const MASCOT_MESSAGES = {
   water: [
     'Hora de beber água! Mantenha-se hidratado.',

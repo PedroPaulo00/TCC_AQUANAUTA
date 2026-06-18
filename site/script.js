@@ -83,7 +83,7 @@
   });
 })();
 
-/* ── Navbar scroll opacity ───────────────────────────────── */
+/* navbar scroll opacity */
 (function initNav() {
   const nav = document.querySelector('.glass-nav');
   if (!nav) return;
@@ -96,7 +96,7 @@
   onScroll();
 })();
 
-/* ── Scroll-reveal (Intersection Observer) ───────────────── */
+/* scroll reveal */
 (function initReveal() {
   const els = document.querySelectorAll('.reveal');
   if (!els.length) return;
@@ -113,7 +113,7 @@
   els.forEach(el => io.observe(el));
 })();
 
-/* ── Download button ─────────────────────────────────────── */
+/* botão de download */
 (function initDownload() {
   const btn = document.getElementById('btn-download');
   if (!btn) return;
@@ -136,7 +136,7 @@
   });
 })();
 
-/* ── Smooth scroll for anchor links ──────────────────────── */
+/* smooth scroll para links âncora */
 (function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {

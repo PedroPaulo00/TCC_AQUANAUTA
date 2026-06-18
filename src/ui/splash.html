@@ -23,9 +23,6 @@
       -webkit-user-select: none;
     }
 
-    /* ═══════════════════════════════════════════
-       SPLASH WRAPPER
-    ═══════════════════════════════════════════ */
     .splash {
       width: 100%;
       height: 100%;
@@ -39,9 +36,7 @@
         splash-out 0.75s ease-in 4.25s both;
     }
 
-    /* ═══════════════════════════════════════════
-       ORB AREA  —  relative container for all rings
-    ═══════════════════════════════════════════ */
+    /* container relativo para os anéis e o orbe */
     .orb-area {
       position: relative;
       width: 220px;
@@ -51,7 +46,7 @@
       justify-content: center;
     }
 
-    /* --- Expanding pulse rings --- */
+    /* anéis de pulso expansivos */
     .pulse-ring {
       position: absolute;
       top: 50%;
@@ -67,7 +62,7 @@
     .pulse-ring:nth-child(2) { animation-delay: 0.87s; }
     .pulse-ring:nth-child(3) { animation-delay: 1.74s; }
 
-    /* --- Decorative rotation rings --- */
+    /* anéis decorativos girantes */
     .deco-ring {
       position: absolute;
       border-radius: 50%;
@@ -92,7 +87,7 @@
       animation: rot-cw 16s linear infinite;
     }
 
-    /* --- Main glass orb --- */
+    /* orbe principal */
     .orb {
       position: relative;
       width: 130px;
@@ -161,9 +156,6 @@
       animation: icon-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s both;
     }
 
-    /* ═══════════════════════════════════════════
-       TEXT
-    ═══════════════════════════════════════════ */
     .title-block {
       display: flex;
       flex-direction: column;
@@ -196,9 +188,7 @@
       text-transform: uppercase;
     }
 
-    /* ═══════════════════════════════════════════
-       FLOATING PARTICLES
-    ═══════════════════════════════════════════ */
+    /* partículas flutuantes */
     .particle {
       position: fixed;
       border-radius: 50%;
@@ -213,9 +203,6 @@
       pointer-events: none;
     }
 
-    /* ═══════════════════════════════════════════
-       KEYFRAMES
-    ═══════════════════════════════════════════ */
     @keyframes splash-in {
       from { opacity: 0; transform: scale(0.80); }
       to   { opacity: 1; transform: scale(1.00); }
@@ -289,17 +276,14 @@
   <div class="splash">
 
     <div class="orb-area">
-      <!-- expanding pulse rings -->
       <div class="pulse-ring"></div>
       <div class="pulse-ring"></div>
       <div class="pulse-ring"></div>
 
-      <!-- decorative rotation rings -->
       <div class="deco-ring deco-ring-1"></div>
       <div class="deco-ring deco-ring-2"></div>
       <div class="deco-ring deco-ring-3"></div>
 
-      <!-- glass orb with app icon -->
       <div class="orb">
         <img src="../../assets/icons/app.png" class="orb-icon" alt="Aquanauta">
       </div>
@@ -313,7 +297,7 @@
   </div>
 
   <script>
-    // Floating glass bubbles
+    // bolhas de vidro flutuantes
     const pts = [
       { s: 6, x: 55,  b: 42, delay: 0.3,  dur: 3.8 },
       { s: 4, x: 320, b: 30, delay: 0.9,  dur: 4.4 },

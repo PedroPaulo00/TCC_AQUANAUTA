@@ -247,7 +247,7 @@ body {
   margin-top: 0;
   border: 1px solid rgba(0, 0, 0, 0.7);
   background:
-    linear-gradient(rgba(5, 15, 45, 0.82), rgba(5, 15, 45, 0.82)), /* AQUI */
+    linear-gradient(rgba(5, 15, 45, 0.82), rgba(5, 15, 45, 0.82)),
     url('../../assets/bacground/bacground.jpg') center / cover no-repeat;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
   padding: 12px;
@@ -433,26 +433,20 @@ body {
 }
 
 .background_pomodoro {
-  /* Gradiente mais vivo e com a transição suave típica do Frutiger Aero */
   background: radial-gradient(circle at 50% -20%, #ff8e8e 0%, #ff4b4b 50%, #b8001f 100%);
-
-  border-radius: 20px; /* Cantos levemente mais arredondados e orgânicos */
+  border-radius: 20px;
   padding: 20px;
   margin-bottom: 15px;
   position: relative;
   overflow: hidden;
-  
-  /* Borda de vidro (glassmorphism) mais nítida e refinada */
   border: 1px solid rgba(255, 255, 255, 0.5);
-
-  /* Sombras aprimoradas: o reflexo interno branco (gloss) e a profundidade estão mais realistas */
-  box-shadow: 
+  box-shadow:
     inset 0 2px 12px rgba(255, 255, 255, 0.8),
     inset 0 -10px 20px rgba(0, 0, 0, 0.25),
     0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* O reflexo principal superior (Gloss/Glass gel) clássico da época */
+/* gloss superior */
 .background_pomodoro::before {
   content: "";
   position: absolute;
@@ -465,12 +459,11 @@ body {
     rgba(255, 255, 255, 0.6) 0%,
     rgba(255, 255, 255, 0.15) 100%
   );
-  /* Curvatura elíptica perfeita para simular uma lente ou bolha tridimensional */
   border-radius: 0 0 50% 50% / 0 0 35% 35%;
   pointer-events: none;
 }
 
-/* O ponto de luz concentrado secundário (Specular Highlight) para dar efeito de textura de plástico/vidro brilhante */
+/* ponto de luz secundário */
 .background_pomodoro::after {
   content: "";
   position: absolute;
@@ -483,7 +476,7 @@ body {
     rgba(255, 255, 255, 0.7) 0%,
     rgba(255, 255, 255, 0) 80%
   );
-  filter: blur(2px); /* Desfoque reduzido para o reflexo parecer mais nítido e espelhado */
+  filter: blur(2px);
   border-radius: 50%;
   transform: rotate(-10deg);
   pointer-events: none;
@@ -1428,7 +1421,7 @@ input[type="checkbox"]:checked::after {
   background: #00CCCC;
 }
 
-/* ====== medicamentos / cronograma ====== */
+/* medicamentos / cronograma */
 
 .med-window,
 .schedule-window {
@@ -1748,7 +1741,7 @@ select.text-input:focus {
   vertical-align: middle;
 }
 
-/* ====== section titles & empty state ====== */
+/* section titles e empty state */
 
 .section-title {
   font-size: 9.5pt;
@@ -1767,14 +1760,14 @@ select.text-input:focus {
   font-style: italic;
 }
 
-/* ====== dark backgrounds for modal windows ====== */
+/* fundo escuro nas janelas modais */
 
 .aero-window-body.settings-body,
 .aero-window-body.med-body,
 .aero-window-body.schedule-body,
 .aero-window-body.about-body {
   background:
-    linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82)), /* AQUI */
+    linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82)),
     url('../../assets/bacground/bacground.jpg') center / cover no-repeat;
   color: #ffffff;
 }
@@ -1860,7 +1853,7 @@ select.text-input:focus {
   color: #6090a8;
 }
 
-/* ====== social link buttons ====== */
+/* botões de redes sociais */
 
 .social-links-row {
   display: flex;

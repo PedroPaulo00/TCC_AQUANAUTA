@@ -21,9 +21,7 @@
       -webkit-user-select: none;
     }
 
-    /* ════════════════════════════════════════════
-       OUTER WRAPPER  — gives room for shadow bleed
-    ════════════════════════════════════════════ */
+    /* padding lateral dá espaço pro shadow vazar */
     .wrapper {
       width: 100%;
       height: 100%;
@@ -32,9 +30,7 @@
       flex-direction: column;
     }
 
-    /* ════════════════════════════════════════════
-       GLASS PANEL  — the Aero Glass menu itself
-    ════════════════════════════════════════════ */
+    /* painel de vidro principal */
     .menu {
       flex: 1;
       position: relative;
@@ -42,12 +38,6 @@
       border-radius: 10px;
       padding: 5px;
 
-      /*
-        Three-layer glass stack:
-        1. Top specular gloss     — bright white from above
-        2. Mid glass body         — very translucent blue tint
-        3. Bottom inner reflection — subtle upward cyan glow
-      */
       background:
         linear-gradient(180deg,
           rgba(255, 255, 255, 0.78)  0%,
@@ -65,21 +55,11 @@
           transparent               35%
         );
 
-      /* Vista DWM chrome border:
-         top = near-white (light hits from above)
-         right/bottom = softer blue-grey                */
       border-top:    1px solid rgba(255, 255, 255, 0.92);
       border-left:   1px solid rgba(255, 255, 255, 0.72);
       border-right:  1px solid rgba(160, 205, 250, 0.42);
       border-bottom: 1px solid rgba(130, 185, 245, 0.36);
 
-      /*
-        Shadow stack:
-        a) Large soft outer shadow   — "floating" depth
-        b) Tight crisp shadow        — ground contact
-        c) Inner top highlight       — Aero signature
-        d) Outer glow ring           — Vista DWM glow
-      */
       box-shadow:
         0  16px 50px rgba(0,   0,   0, 0.62),
         0   3px 10px rgba(0,   0,   0, 0.40),
@@ -88,7 +68,6 @@
         0   0   0 1px rgba(90,  170, 255, 0.20),
         0   0  20px rgba(80,  160, 255, 0.12);
 
-      /* Slide + fade in when opened */
       animation: menu-in 0.13s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
@@ -97,7 +76,7 @@
       to   { opacity: 1; transform: scale(1.00) translateY(0px); }
     }
 
-    /* ── Subtle scanline texture — Vista glass feel ── */
+    /* textura de linhas finas estilo aero */
     .menu::before {
       content: '';
       position: absolute;
@@ -114,7 +93,7 @@
       z-index: 0;
     }
 
-    /* ── Bottom reflection pool — light bouncing up ── */
+    /* reflexo de luz vindo de baixo */
     .menu::after {
       content: '';
       position: absolute;
@@ -129,9 +108,7 @@
       z-index: 0;
     }
 
-    /* ════════════════════════════════════════════
-       MENU ITEMS
-    ════════════════════════════════════════════ */
+    /* itens do menu */
     .item {
       display: flex;
       align-items: center;
@@ -147,12 +124,10 @@
       border: 1px solid transparent;
       z-index: 1;
       transition: border-color 110ms ease, box-shadow 110ms ease, color 80ms ease;
-
-      /* Crisp text shadow like Vista labels */
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
     }
 
-    /* Gloss highlight overlay — always present, opacity changes on hover */
+    /* gloss overlay — aparece só no hover */
     .item::before {
       content: '';
       position: absolute;
@@ -169,7 +144,6 @@
     }
 
     .item:hover {
-      /* Liquid glass green — same as status-item in the app */
       background: linear-gradient(180deg,
         rgba(255, 255, 255, 0.72)  0%,
         rgba(215, 255,  58, 0.52) 28%,
@@ -203,9 +177,7 @@
       filter: drop-shadow(0 1px 2px rgba(0,30,120,0.30));
     }
 
-    /* ════════════════════════════════════════════
-       SEPARATOR — Vista double-rule style
-    ════════════════════════════════════════════ */
+    /* separador duplo estilo vista */
     .sep {
       position: relative;
       height: 1px;
@@ -219,7 +191,6 @@
         transparent 100%
       );
     }
-    /* Bright highlight line immediately below — Vista double-rule */
     .sep::after {
       content: '';
       position: absolute;
@@ -240,7 +211,6 @@
     <div class="menu">
 
       <div class="item" id="item-open">
-        <!-- Mini glass orb with app icon -->
         <div class="icon-orb">
           <img class="item-icon" src="../../assets/icons/app.png" alt="">
         </div>

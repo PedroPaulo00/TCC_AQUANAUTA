@@ -532,9 +532,7 @@
     }
   });
 
-  // ============================================================
   // medicamentos
-  // ============================================================
 
   const WEEKDAY_LABELS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
   const WEEKDAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -786,9 +784,7 @@
     notificationService.show('medication', title, message, 'medication_' + item.id);
   };
 
-  // ============================================================
   // cronograma
-  // ============================================================
 
   const scheduleListEl = document.getElementById('schedule-list');
   const scheduleModal = document.getElementById('schedule-modal');
