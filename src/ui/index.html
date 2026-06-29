@@ -197,11 +197,18 @@
             <label for="toggle-bg-sound">Som de fundo:</label>
             <input type="checkbox" id="toggle-bg-sound" checked>
           </div>
+          <div class="setting-row">
+            <label for="toggle-btn-sound">Som dos botões:</label>
+            <input type="checkbox" id="toggle-btn-sound" checked>
+          </div>
         </div>
 
         <div class="settings-actions">
           <button class="frutiger-aero-button medium" id="btn-save-settings">
             Salvar
+          </button>
+          <button class="frutiger-aero-button medium ghost" id="btn-reset-settings">
+            Restaurar padrões
           </button>
         </div>
       </div>
@@ -480,6 +487,11 @@
   <!-- som de fundo -->
   <audio id="bg-sound" loop preload="auto">
     <source src="../../assets/sounds/som_fundo.wav" type="audio/wav">
+  </audio>
+
+  <!-- som de clique nos botões -->
+  <audio id="btn-sound" preload="auto">
+    <source src="../../assets/sounds/bubble.mp3" type="audio/mp3">
   </audio>
 
   <!-- scripts -->

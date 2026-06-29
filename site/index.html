@@ -2,253 +2,404 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#010810">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Aquanauta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquanauta — Bem-estar Digital</title>
   <meta name="description" content="Cuide da sua saúde enquanto trabalha. Pomodoro, hidratação, alongamento e muito mais.">
   <link rel="icon" type="image/png" href="../assets/icons/aquanauta_logo.png">
-
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="bg-base"></div>
-  <div class="bg-aurora" aria-hidden="true"></div>
-  <div class="bg-grid"   aria-hidden="true"></div>
+  <div id="particles"></div>
 
-  <audio id="bg-music" loop preload="none">
-    <source src="../assets/sounds/notification.mp3" type="audio/mpeg">
-  </audio>
+  <div class="browser-window">
 
-  <div id="particles" aria-hidden="true"></div>
-
-  <nav class="glass-nav" id="nav">
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <img src="../assets/icons/app.png" alt="Aquanauta" class="nav-logo-img">
-        <span class="nav-logo-text">Aquanauta</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#features">Funcionalidades</a></li>
-        <li><a href="#download">Download</a></li>
-        <li><a href="#about">Sobre</a></li>
-      </ul>
-      <button class="music-toggle" id="music-toggle" title="Música de fundo" aria-label="Ativar música">
-        <span class="music-icon">♫</span>
-      </button>
+    <!-- titlebar estilo Frutiger Aero do app Aquanauta -->
+    <div class="app-titlebar">
+      <div class="titlebar-left">
+        <img src="../assets/icons/aquanauta_logo.png" class="titlebar-icon" alt="">
+        <span class="titlebar-title">Aquanauta</span>
+      </div>
+      <div class="titlebar-controls">
+        <button class="ctrl-btn minimize" title="Minimizar">
+          <svg viewBox="0 0 10 2" fill="none" width="10" height="2"><path d="M0 1h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <button class="ctrl-btn restore" title="Restaurar">
+          <svg viewBox="0 0 10 10" fill="none" width="9" height="9"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 7V1h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="ctrl-btn close" title="Fechar">
+          <svg viewBox="0 0 10 10" fill="none" width="9" height="9"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
-  </nav>
 
-  <section class="hero" id="hero">
-    <div class="hero-inner">
-
-      <div class="hero-orb-wrap" aria-hidden="true">
-        <div class="orb-rings">
-          <div class="pulse-ring pr-1"></div>
-          <div class="pulse-ring pr-2"></div>
-          <div class="pulse-ring pr-3"></div>
-          <div class="rot-ring rr-1"></div>
-          <div class="rot-ring rr-2"></div>
-          <div class="rot-ring rr-3"></div>
+    <!-- chrome: botões de nav + barra de endereço -->
+    <div class="browser-chrome">
+      <div class="chrome-nav">
+        <button class="nav-btn" id="btn-prev" title="Faixa anterior">
+          <svg viewBox="0 0 12 12" fill="currentColor" width="10" height="10"><path d="M8 2L3 6l5 4V2z"/></svg>
+        </button>
+        <button class="nav-btn" id="btn-reset-track" title="Reiniciar faixa">
+          <svg viewBox="0 0 12 12" fill="none" width="11" height="11"><path d="M10.5 6A4.5 4.5 0 1 1 7.8 1.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><polyline points="8 0.5 10.5 2.8 8 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="nav-btn" id="btn-next" title="Próxima faixa">
+          <svg viewBox="0 0 12 12" fill="currentColor" width="10" height="10"><path d="M4 2l5 4-5 4V2z"/></svg>
+        </button>
+      </div>
+      <div class="address-bar">
+        <span class="address-icon">
+          <svg viewBox="0 0 14 14" fill="none" width="13" height="13">
+            <circle cx="7" cy="7" r="6" stroke="#1a6dbf" stroke-width="1.3"/>
+            <path d="M7 1c-1.8 1.8-2.8 3.7-2.8 6S5.2 11.2 7 13M7 1c1.8 1.8 2.8 3.7 2.8 6S8.8 11.2 7 13M1 7h12" stroke="#1a6dbf" stroke-width="1.1"/>
+          </svg>
+        </span>
+        <span class="np-label">Reproduzindo Agora:</span>
+        <div class="marquee-wrap">
+          <div class="marquee-inner" id="marquee-inner">
+            <span class="np-span" id="np-text">—</span>
+            <span class="np-span" id="np-text-dupe" aria-hidden="true">—</span>
+          </div>
         </div>
-        <div class="hero-orb">
-          <img src="../assets/icons/app.png" alt="Aquanauta" class="hero-orb-img">
+        <div class="addr-actions">
+          <button class="addr-btn" id="btn-clock" title="Relógio e calendário">
+            <svg viewBox="0 0 12 12" fill="none" width="11" height="11"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="addr-btn inert" tabindex="-1" aria-hidden="true" title="Menu">
+            <svg viewBox="0 0 12 12" fill="none" width="11" height="11"><path d="M2 3h8M2 6h8M2 9h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="hero-text">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          v1.0.0 &nbsp;·&nbsp; Windows 10 / 11
+    <!-- abas de navegação -->
+    <div class="tab-strip">
+      <div class="tab active" data-tab="home">
+        <img src="../assets/icons/aquanauta_logo.png" class="tab-icon" alt="">
+        Início
+      </div>
+      <div class="tab" data-tab="features">
+        <img src="../assets/icons/pomodoro.png" class="tab-icon" alt="">
+        Funcionalidades
+      </div>
+      <div class="tab" data-tab="gallery">
+        <img src="../assets/icons/personalizado.png" class="tab-icon" alt="">
+        Galeria
+      </div>
+      <div class="tab" data-tab="download">
+        <img src="../assets/icons/water.png" class="tab-icon" alt="">
+        Download
+      </div>
+      <div class="tab" data-tab="about">
+        <img src="../assets/icons/about.png" class="tab-icon" alt="">
+        Sobre
+      </div>
+    </div>
+
+    <!-- área de conteúdo -->
+    <div class="content-area">
+
+      <!-- sidebar esquerda -->
+      <aside class="sidebar">
+        <div class="sidebar-avatar">
+          <div class="avatar-ring">
+            <div class="inner-content">
+              <img src="../assets/icons/aquanauta_logo.png" alt="Aquanauta">
+            </div>
+          </div>
         </div>
-        <h1 class="hero-title">AQUANAUTA</h1>
-        <p class="hero-tagline">Bem-estar Digital</p>
-        <p class="hero-desc">
-          Cuide da sua saúde enquanto trabalha. Pomodoro inteligente,
-          lembretes de hidratação, alongamento, descanso dos olhos,
-          medicamentos e muito mais! Além disso, um mascote interativo
-          te acompanhará a cada passo.
-        </p>
-        <div class="hero-actions">
-          <a href="#download" class="btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Baixar Grátis
+        <div class="sidebar-name">Aquanauta</div>
+        <div class="sidebar-sub"><span class="online-dot"></span>Online</div>
+        <ul class="sidebar-status">
+          <li><span class="status-dot green"></span>Windows · macOS · Linux</li>
+          <li><span class="status-dot blue"></span>Gratuito</li>
+          <li><span class="status-dot cyan"></span>Sem conexão</li>
+        </ul>
+        <div class="sidebar-socials">
+          <a href="https://github.com/PedroPaulo00" target="_blank" rel="noopener" class="social-btn github" title="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.42 7.88 10.96.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.19a11.1 11.1 0 012.9-.39c.98 0 1.97.13 2.9.39 2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.13v3.16c0 .31.2.67.8.56C20.2 21.41 23.5 17.09 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
           </a>
-          <a href="#features" class="btn-ghost">Saiba mais ↓</a>
-        </div>
-        <div class="hero-pills">
-          <span>Leve e Seguro</span>
-          <span>100% Grátis</span>
-          <span>Offline</span>
-        </div>
-      </div>
-
-    </div>
-    <div class="hero-scroll-hint" aria-hidden="true">
-      <div class="scroll-chevron"></div>
-    </div>
-  </section>
-
-  <section class="features-section" id="features">
-    <div class="section-wrap">
-      <div class="section-header reveal">
-        <h2 class="section-title">Funcionalidades</h2>
-        <p class="section-sub">Tudo que você precisa para um dia de trabalho mais saudável!</p>
-      </div>
-      <div class="features-grid">
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/pomodoro.png" class="feat-icon" alt="Pomodoro">
-          </div>
-          <h3>Método Pomodoro</h3>
-          <p>Ciclos de foco e pausa configuráveis para maximizar sua produtividade ao longo do dia.</p>
+          <a href="https://linkedin.com/in/" target="_blank" rel="noopener" class="social-btn linkedin" title="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM3.56 20.45h3.55V9H3.56v11.45z"/></svg>
+          </a>
+          <a href="https://instagram.com/PedroPaulo00" target="_blank" rel="noopener" class="social-btn instagram" title="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
         </div>
 
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/water.png" class="feat-icon" alt="Água">
-          </div>
-          <h3>Hidratação</h3>
-          <p>Lembretes inteligentes para beber água na medida certa e manter-se hidratado.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/stretch.png" class="feat-icon" alt="Alongamento">
-          </div>
-          <h3>Alongamento</h3>
-          <p>Pausas ativas para alongar o corpo e prevenir lesões por esforço repetitivo.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/eyes.png" class="feat-icon" alt="Descanso Visual">
-          </div>
-          <h3>Descanso Visual</h3>
-          <p>Regra 20-20-20 automatizada para reduzir o cansaço ocular em sessões longas.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/personalizado.png" class="feat-icon" alt="Timers Personalizados">
-          </div>
-          <h3>Timers Personalizados</h3>
-          <p>Crie lembretes com ícone próprio para qualquer hábito da sua rotina.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/medication.png" class="feat-icon" alt="Medicamentos">
-          </div>
-          <h3>Medicamentos</h3>
-          <p>Agende remédios com horários fixos e dias da semana sem esquecer nenhuma dose.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/icons/schedule.png" class="feat-icon" alt="Cronograma">
-          </div>
-          <h3>Cronograma</h3>
-          <p>Organize sua rotina com eventos diários e alertas antecipados configuráveis.</p>
-        </div>
-
-        <div class="feat-card reveal">
-          <div class="feat-icon-wrap">
-            <img src="../assets/mascote/mascote.png" class="feat-icon" alt="Mascote">
-          </div>
-          <h3>Mascote Interativo</h3>
-          <p>O Aquanauta te acompanha com dicas de saúde e mensagens motivacionais.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="download-section" id="download">
-    <div class="download-glass reveal">
-      <div class="dl-orb-ring" aria-hidden="true">
-        <div class="dl-ring dl-ring-1"></div>
-        <div class="dl-ring dl-ring-2"></div>
-        <div class="dl-orb">
-          <img src="../assets/icons/app.png" alt="Aquanauta">
-        </div>
-      </div>
-      <div class="dl-text">
-        <h2>Pronto para começar?</h2>
-        <p>Baixe o Aquanauta gratuitamente e transforme<br>sua rotina de trabalho em algo mais saudável.</p>
-        <a href="#" class="btn-download" id="btn-download">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Aquanauta.exe — Download Grátis
-        </a>
-        <div class="dl-meta">
-          <span>Windows 10 / 11</span>
-          <span class="dot">·</span>
-          <span>~80 MB</span>
-          <span class="dot">·</span>
-          <span>Sem instalação complexa</span>
-          <span class="dot">·</span>
-          <span>100% Gratuito</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="about-section" id="about">
-    <div class="section-wrap">
-      <div class="about-glass reveal">
-        <div class="about-avatar">
-          <div class="avatar-orb">
-            <img src="../assets/icons/EU.jpg" class="avatar-photo" alt="Pedro Paulo de Lima">
+        <!-- contador de downloads -->
+        <div class="dl-counter-block">
+          <div class="dl-counter-pill">
+            <svg class="dl-counter-ico" viewBox="0 0 16 16" fill="none" width="15" height="15">
+              <path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="dl-counter-num" id="dl-count">0</span>
           </div>
         </div>
-        <div class="about-info">
-          <h2 class="section-title">Desenvolvedor</h2>
-          <h3 class="about-name">Pedro Paulo de Lima</h3>
-          <p>
-            O projeto Aquanauta foi desenvolvido como Trabalho de Conclusão de Curso (TCC)
-            para o curso de <strong>Ciência da Computação</strong> na
-            <strong>Universidade Estadual do Centro-Oeste — UNICENTRO</strong>.
+      </aside>
+
+      <!-- painéis de conteúdo -->
+      <main class="panels">
+
+        <!-- início -->
+        <div class="panel" id="panel-home">
+          <h1 class="panel-title">Bem-vindo ao Aquanauta</h1>
+          <div class="featured-img-wrap">
+            <img src="../assets/mascote/mascote.png" class="featured-mascot" alt="Mascote Aquanauta">
+            <div class="featured-caption">
+              <p>Cuide da sua saúde enquanto trabalha.</p>
+              <p>Pomodoro inteligente, lembretes de hidratação, alongamento e descanso dos olhos — tudo em um só lugar.</p>
+            </div>
+          </div>
+          <p class="panel-lead">
+            O Aquanauta é um aplicativo desktop para Windows que monitora sua atividade e envia lembretes inteligentes para hidratação, alongamento, descanso dos olhos e pausas programadas pelo método Pomodoro.
           </p>
-          <p>
-            O projeto combina tecnologia moderna com design Frutiger Aero para criar
-            uma experiência de uso bonita, funcional e acessível.
-          </p>
-          <div class="social-row">
-            <a href="https://github.com/PedroPaulo00"    target="_blank" rel="noopener" class="social-chip github">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.42 7.88 10.96.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.19a11.1 11.1 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.13v3.16c0 .31.2.67.8.56C20.2 21.41 23.5 17.09 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-              GitHub
-            </a>
-            <a href="https://linkedin.com/in/"           target="_blank" rel="noopener" class="social-chip linkedin">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.55V9H3.56v11.45z"/></svg>
-              LinkedIn
-            </a>
-            <a href="https://instagram.com/PedroPaulo00"             target="_blank" rel="noopener" class="social-chip instagram">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-              Instagram
-            </a>
-            <a href="https://open.spotify.com/user/12178176848?si=53e70ed577894a65"    target="_blank" rel="noopener" class="social-chip spotify">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-              Spotify
-            </a>
+          <div class="home-cols">
+            <div class="home-col">
+              <div class="col-badge">bem-estar</div>
+              <p>Lembretes de água, alongamento e descanso ocular com base no tempo real de uso do computador.</p>
+            </div>
+            <div class="home-col">
+              <div class="col-badge">produtividade</div>
+              <p>Pomodoro configurável, temporizadores personalizados, medicamentos e cronograma diário integrados.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <img src="../assets/icons/app.png" alt="Aquanauta" class="footer-logo">
-        <span class="footer-name">Aquanauta</span>
-      </div>
-      <p class="footer-copy">2026 &nbsp;·&nbsp; PT-BR</p>
-      <p class="footer-tech">HTML5 &nbsp;·&nbsp; CSS3 &nbsp;·&nbsp; JavaScript</p>
+        <!-- funcionalidades -->
+        <div class="panel" id="panel-features" style="display:none">
+          <h1 class="panel-title">Funcionalidades</h1>
+          <div class="features-grid">
+            <div class="feat-item">
+              <img src="../assets/icons/pomodoro.png" class="feat-icon" alt="">
+              <div>
+                <strong>Método Pomodoro</strong>
+                <p>Ciclos de foco e pausa configuráveis para maximizar sua produtividade ao longo do dia.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/water.png" class="feat-icon" alt="">
+              <div>
+                <strong>Hidratação</strong>
+                <p>Lembretes inteligentes para beber água na medida certa e manter-se hidratado.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/stretch.png" class="feat-icon" alt="">
+              <div>
+                <strong>Alongamento</strong>
+                <p>Pausas ativas para alongar o corpo e prevenir lesões por esforço repetitivo.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/eyes.png" class="feat-icon" alt="">
+              <div>
+                <strong>Descanso Visual</strong>
+                <p>Regra 20-20-20 automatizada para reduzir o cansaço ocular em sessões longas.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/personalizado.png" class="feat-icon" alt="">
+              <div>
+                <strong>Timers Personalizados</strong>
+                <p>Crie lembretes com ícone próprio para qualquer hábito da sua rotina.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/medication.png" class="feat-icon" alt="">
+              <div>
+                <strong>Medicamentos</strong>
+                <p>Agende remédios com horários fixos e dias da semana sem esquecer nenhuma dose.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/icons/schedule.png" class="feat-icon" alt="">
+              <div>
+                <strong>Cronograma</strong>
+                <p>Organize sua rotina com eventos diários e alertas antecipados configuráveis.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <img src="../assets/mascote/mascote.png" class="feat-icon" alt="">
+              <div>
+                <strong>Mascote Interativo</strong>
+                <p>O Aquanauta te acompanha com dicas de saúde e mensagens motivacionais.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- galeria -->
+        <div class="panel" id="panel-gallery" style="display:none">
+          <h1 class="panel-title">Galeria</h1>
+
+          <div class="gallery-wrap">
+            <button class="gallery-arrow gallery-prev" id="gallery-prev" title="Anterior">&#10094;</button>
+
+            <div class="gallery-stage">
+              <!-- slide 0 -->
+              <figure class="gallery-slide active" data-index="0">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Tela Inicial 1</figcaption>
+              </figure>
+              <!-- slide 1 -->
+              <figure class="gallery-slide" data-index="1">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Tela Inicial 2</figcaption>
+              </figure>
+              <!-- slide 2 -->
+              <figure class="gallery-slide" data-index="2">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Medicamentos</figcaption>
+              </figure>
+              <!-- slide 3 -->
+              <figure class="gallery-slide" data-index="3">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Rotina</figcaption>
+              </figure>
+              <!-- slide 4 -->
+              <figure class="gallery-slide" data-index="4">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Notificações</figcaption>
+              </figure>
+              <!-- slide 5 -->
+              <figure class="gallery-slide" data-index="5">
+                <div class="gallery-ph">
+                  <span class="gallery-ph-icon">🖼</span>
+                  <span class="gallery-ph-hint">substitua por seu print</span>
+                </div>
+                <figcaption class="gallery-caption">Configurações</figcaption>
+              </figure>
+            </div>
+
+            <button class="gallery-arrow gallery-next" id="gallery-next" title="Próximo">&#10095;</button>
+          </div>
+
+          <div class="gallery-dots" id="gallery-dots"></div>
+        </div>
+
+        <!-- download -->
+        <div class="panel" id="panel-download" style="display:none">
+          <h1 class="panel-title">Download</h1>
+          <div class="download-card">
+            <div class="dl-orb">
+              <img src="../assets/icons/app.png" alt="Aquanauta">
+            </div>
+            <h2>Pronto para começar?</h2>
+            <p>Baixe o Aquanauta gratuitamente e transforme sua rotina de trabalho em algo mais saudável.</p>
+            <a href="#" class="btn-download" id="btn-download">
+              <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+                <path d="M10 3v10M6 9l4 5 4-5M3 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Aquanauta.exe — Download Grátis
+            </a>
+            <div class="dl-meta">
+              <span>Windows 10 / 11</span>
+              <span class="dot">·</span>
+              <span>~80 MB</span>
+              <span class="dot">·</span>
+              <span>Sem instalação complexa</span>
+              <span class="dot">·</span>
+              <span>100% Gratuito</span>
+            </div>
+          </div>
+          <div class="dl-pills">
+            <span>Leve e Seguro</span>
+            <span>Código aberto</span>
+            <span>Sem anúncios</span>
+            <span>Sem rastreamento</span>
+          </div>
+        </div>
+
+        <!-- sobre -->
+        <div class="panel" id="panel-about" style="display:none">
+          <h1 class="panel-title">Sobre o Projeto</h1>
+          <div class="about-dev">
+            <img src="../assets/icons/EU.jpg" class="dev-photo" alt="Pedro Paulo de Lima">
+            <div class="about-info">
+              <h2>Pedro Paulo de Lima</h2>
+              <p class="about-role">Desenvolvedor · Ciência da Computação · UNICENTRO</p>
+              <p>
+                O Aquanauta foi desenvolvido como Trabalho de Conclusão de Curso (TCC) para o curso de Ciência da Computação na Universidade Estadual do Centro-Oeste — UNICENTRO.
+              </p>
+              <p>
+                O projeto combina tecnologia moderna com design Frutiger Aero para criar uma experiência de uso bonita, funcional e acessível.
+              </p>
+              <div class="about-socials">
+                <a href="https://github.com/PedroPaulo00" target="_blank" rel="noopener" class="about-chip github">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.42 7.88 10.96.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.19a11.1 11.1 0 012.9-.39c.98 0 1.97.13 2.9.39 2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.13v3.16c0 .31.2.67.8.56C20.2 21.41 23.5 17.09 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+                  GitHub
+                </a>
+                <a href="https://linkedin.com/in/" target="_blank" rel="noopener" class="about-chip linkedin">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM3.56 20.45h3.55V9H3.56v11.45z"/></svg>
+                  LinkedIn
+                </a>
+                <a href="https://instagram.com/PedroPaulo00" target="_blank" rel="noopener" class="about-chip instagram">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  Instagram
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
     </div>
-  </footer>
+
+    <!-- barra de status -->
+    <div class="status-bar">
+      <span>v1.0.0</span>
+      <span>·</span>
+      <span>Windows 10 / 11</span>
+      <div class="status-right">
+        <button class="music-btn" id="music-btn" title="Música de fundo">♪</button>
+        2026 · Pedro Paulo de Lima · UNICENTRO
+      </div>
+    </div>
+
+  </div>
+
+  <audio id="bg-music" preload="auto"></audio>
+
+  <!-- painel flutuante: relógio + calendário -->
+  <div class="clock-panel" id="clock-panel" role="dialog" aria-label="Relógio e Calendário">
+    <div class="cp-header">
+      <span id="cp-date-label">—</span>
+    </div>
+    <div class="cp-body">
+      <div class="cp-calendar">
+        <div class="cp-month-nav">
+          <button class="cp-nav-btn" id="cp-prev" title="Mês anterior">&#9668;</button>
+          <span class="cp-month-label" id="cp-month-label">—</span>
+          <button class="cp-nav-btn" id="cp-next" title="Próximo mês">&#9658;</button>
+        </div>
+        <div class="cp-days-header">
+          <span>D</span><span>S</span><span>T</span>
+          <span>Q</span><span>Q</span><span>S</span><span>S</span>
+        </div>
+        <div class="cp-days-grid" id="cp-days-grid"></div>
+      </div>
+      <div class="cp-clock-section">
+        <canvas id="analog-clock" width="120" height="120"></canvas>
+        <div class="cp-digital-time" id="cp-digital-time">00:00:00</div>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

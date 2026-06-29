@@ -1,13 +1,13 @@
 // configurações padrão
 const DEFAULT_CONFIG = {
   pomodoro: {
-    workDuration: 3,        // minutos
+    workDuration: 25,        // minutos
     breakDuration: 5,       // minutos
-    longBreakDuration: 15,  // minutos
+    longBreakDuration: 30,  // minutos
     cyclesBeforeLongBreak: 4,
   },
   notifications: {
-    waterInterval: 4,       // minutos
+    waterInterval: 30,       // minutos
     stretchInterval: 45,    // minutos
     eyesInterval: 20,       // minutos
   },
@@ -17,6 +17,7 @@ const DEFAULT_CONFIG = {
     eyes: true,
     sound: true,
     bgSound: true,
+    btnSound: true,
   },
   activity: {
     inactivityThreshold: 30, // tempo em segundos sem atividade para considerar inativo (30 = teste, 120-300 recomendado para produção)

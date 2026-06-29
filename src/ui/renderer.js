@@ -47,10 +47,12 @@
   const btnZoomReset = document.getElementById('btn-zoom-reset');
 
   const bgAudio = document.getElementById('bg-sound');
+  const btnSoundAudio = document.getElementById('btn-sound');
   const btnSettings = document.getElementById('btn-settings');
   const settingsModal = document.getElementById('settings-modal');
   const btnCloseSettings = document.getElementById('btn-close-settings');
   const btnSaveSettings = document.getElementById('btn-save-settings');
+  const btnResetSettings = document.getElementById('btn-reset-settings');
   const btnAddTimer = document.getElementById('btn-add-timer');
 
   const btnAbout = document.getElementById('btn-about');
@@ -261,6 +263,21 @@
     settings.saveFromModal();
     settingsModal.style.display = 'none';
   });
+
+  btnResetSettings.addEventListener('click', () => {
+    settings.save(JSON.parse(JSON.stringify(DEFAULT_CONFIG)));
+    settings.populateModal();
+    mascot.say('Configurações restauradas para o padrão!', 4000);
+  });
+
+  // toca bubble.mp3 em qualquer clique de botão, se habilitado
+  document.addEventListener('click', (e) => {
+    if (settings.get().toggles.btnSound === false) return;
+    if (!e.target.closest('button')) return;
+    if (!btnSoundAudio) return;
+    btnSoundAudio.currentTime = 0;
+    btnSoundAudio.play().catch(() => {});
+  }, true);
 
   // esconde/mostra a linha do status de acordo com o toggle (corrige bug do
   // botao remover: ao desativar o toggle, a linha ficava visivel com tempo congelado)

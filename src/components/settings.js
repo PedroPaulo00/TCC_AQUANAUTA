@@ -67,6 +67,7 @@ class SettingsManager {
     document.getElementById('toggle-eyes').checked = c.toggles.eyes;
     document.getElementById('toggle-sound').checked = c.toggles.sound;
     document.getElementById('toggle-bg-sound').checked = c.toggles.bgSound !== false;
+    document.getElementById('toggle-btn-sound').checked = c.toggles.btnSound !== false;
   }
 
     /*
@@ -91,6 +92,7 @@ class SettingsManager {
         eyes: document.getElementById('toggle-eyes').checked,
         sound: document.getElementById('toggle-sound').checked,
         bgSound: document.getElementById('toggle-bg-sound').checked,
+        btnSound: document.getElementById('toggle-btn-sound').checked,
       },
     };
     this.save(newConfig);
