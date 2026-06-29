@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, Tray, nativeImage, screen, shell } = require('electron');
 const path = require('path');
+const { pathToFileURL } = require('url');
 
 app.commandLine.appendSwitch('disable-gpu-vsync');
 app.disableHardwareAcceleration();
@@ -92,6 +93,7 @@ function showNotificationPopup(data) {
   const visualType = data.visualType || data.type;
   const mascotFile = mascotMap[visualType] || 'template.png';
   const mascotPath = path.join(__dirname, 'assets', 'mascote', mascotFile);
+  const mascotUrl  = pathToFileURL(mascotPath).href;
 
   notifWindow.show();
   notifWindow.setAlwaysOnTop(true, 'screen-saver');
@@ -100,7 +102,7 @@ function showNotificationPopup(data) {
   notifWindow.webContents.send('show-notification', {
     title: data.title,
     message: data.message,
-    mascotPath,
+    mascotPath: mascotUrl,
     type: data.type, 
     playSound: data.playSound !== false,
   });

@@ -829,8 +829,10 @@ body {
 /* imagem real (substitui .gallery-ph quando o usuário adicionar prints) */
 .gallery-slide img {
   flex: 1;
+  min-height: 0;     /* permite que o flex comprima abaixo da altura intrínseca da imagem */
   width: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
 }
 
@@ -1313,19 +1315,31 @@ body {
 }
 
 #analog-clock {
+  display: block;          /* remove alinhamento por linha de base (causa do jitter) */
   border-radius: 50%;
   box-shadow:
     0 0 0 2px rgba(118,180,242,0.52),
     0 4px 14px rgba(0,40,120,0.26);
+  transform: translateZ(0); /* camada GPU própria — isola repaints */
+  will-change: transform;
 }
 
 .cp-digital-time {
+  display: block;
   font-size: 15px;
   font-weight: 700;
+  line-height: 1;           /* altura fixa — elimina variação de métricas tipográficas */
   color: #1a2848;
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
   letter-spacing: 0.05em;
+  text-align: center;
+  min-width: 72px;          /* largura estável — evita reflow horizontal */
   text-shadow: 0 1px 0 rgba(255,255,255,0.82);
+}
+
+.cp-clock-section {
+  min-width: 138px;         /* seção de tamanho fixo — bloqueia reflow no flex pai */
 }
 
 /* contador de downloads */

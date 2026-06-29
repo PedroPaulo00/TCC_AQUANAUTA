@@ -1,1 +1,3 @@
 node_modules/
+site/downloads/*.exe
+site/downloads/*.rar

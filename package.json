@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "Aplicacao desktop para promover bem-estar durante uso prolongado do computador",
   "main": "main.js",
-"scripts": {
-  "start": "electron .",
-  "dev": "electron . --dev"
-},
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "dist": "electron-builder --win",
+    "pack": "electron-builder --dir"
+  },
   "keywords": [
     "saude",
     "bem-estar",
@@ -14,12 +17,51 @@
     "hidratacao",
     "electron"
   ],
-  "author": "",
+  "author": "Pedro Paulo de Lima",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^41.2.0"
-  },
-  "dependencies": {
+    "electron": "^41.2.0",
+    "electron-builder": "^26.0.0",
     "cross-env": "^10.1.0"
+  },
+  "build": {
+    "appId": "com.aquanauta.app",
+    "productName": "Aquanauta",
+    "directories": {
+      "output": "C:\\Users\\pedro\\Aquanauta",
+      "buildResources": "build"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!release/**",
+      "!site/**",
+      "!node_modules/.cache/**",
+      "!README.md",
+      "!.git/**",
+      "!.vscode/**"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icons/aquanauta_256.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "allowScripts": {
+    "electron@41.2.0": true,
+    "electron-winstaller@5.4.0": true
   }
 }

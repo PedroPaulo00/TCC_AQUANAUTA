@@ -476,16 +476,56 @@ const Marquee = (function () {
 })();
 
 (function initDownload() {
-  const btn = document.getElementById('btn-download');
+  var COUNTER_NS  = 'aquanauta-tcc';
+  var COUNTER_KEY = 'downloads';
+  var API_BASE    = 'https://api.counterapi.dev/v1/' + COUNTER_NS + '/' + COUNTER_KEY;
+  var countEl     = document.getElementById('dl-count');
+  var btn         = document.getElementById('btn-download');
+
+  /* busca a contagem atual e preenche o elemento */
+  function fetchCount() {
+    fetch(API_BASE)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (countEl && typeof data.count === 'number') {
+          countEl.textContent = data.count.toLocaleString('pt-BR');
+        }
+      })
+      .catch(function () {});
+  }
+
+  /* incrementa o contador e actualiza o display */
+  function incrementCount() {
+    fetch(API_BASE + '/up')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (countEl && typeof data.count === 'number') {
+          countEl.textContent = data.count.toLocaleString('pt-BR');
+        }
+      })
+      .catch(function () {});
+  }
+
+  fetchCount();
+
   if (!btn) return;
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
-    const href = btn.getAttribute('href');
+    var href = btn.getAttribute('href');
     if (href && href !== '#') {
-      window.open(href, '_blank', 'noopener,noreferrer');
+      incrementCount();
+      /* pequeno delay para dar tempo à requisição antes da navegação */
+      setTimeout(function () {
+        var a = document.createElement('a');
+        a.href = href;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, 120);
     } else {
-      const orig = btn.innerHTML;
+      var orig = btn.innerHTML;
       btn.innerHTML = '<span>Em breve...</span>';
       btn.style.pointerEvents = 'none';
       setTimeout(function () {
