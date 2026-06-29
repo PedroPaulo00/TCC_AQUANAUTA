@@ -2,7 +2,7 @@
   font-family: 'Frutiger';
   font-style: normal;
   font-weight: 400 700;
-  src: local('Frutiger'), url('../assets/fonts/Frutiger.woff') format('woff');
+  src: local('Frutiger'), url('assets/fonts/Frutiger.woff') format('woff');
 }
 
 /* variáveis */
@@ -30,7 +30,7 @@ ul { list-style: none; }
 body {
   font-family: 'Frutiger', 'Segoe UI', 'Tahoma', sans-serif;
   min-height: 100vh;
-  background: url('../assets/bacground/fundo_site.jpg') center center / cover fixed;
+  background: url('assets/bacground/fundo_site.jpg') center center / cover fixed;
   background-color: #3c8ec8;
   display: flex;
   align-items: center;
@@ -339,7 +339,7 @@ body {
   height: 100%;
   border-radius: 8px;
   background:
-    url('../assets/bacground/sidebar_avatar_bacground.png') center / cover no-repeat,
+    url('assets/bacground/sidebar_avatar_bacground.png') center / cover no-repeat,
     linear-gradient(to bottom, #ffffff 0%, #e1e4e6 50%, #ccd1d5 100%);
   border: 1px solid #9ca3a8;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);

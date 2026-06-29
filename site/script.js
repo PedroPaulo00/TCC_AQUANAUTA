@@ -126,7 +126,7 @@ const Marquee = (function () {
 
   function loadAndPlay(index) {
     const track  = TRACKS[index];
-    audio.src    = '../assets/sounds/' + track.file;
+    audio.src    = 'assets/sounds/' + track.file;
     audio.muted  = !unlocked || userMuted;
     Marquee.update(track);
     audio.load();
@@ -141,7 +141,7 @@ const Marquee = (function () {
 
   /* tenta autoplay com som; se o navegador bloquear, toca mudo e aguarda interação */
   Marquee.update(TRACKS[0]);
-  audio.src    = '../assets/sounds/' + TRACKS[0].file;
+  audio.src    = 'assets/sounds/' + TRACKS[0].file;
   audio.muted  = false;
   audio.load();
 
