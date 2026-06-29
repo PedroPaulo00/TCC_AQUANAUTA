@@ -476,32 +476,18 @@ const Marquee = (function () {
 })();
 
 (function initDownload() {
-  var COUNTER_NS  = 'aquanauta-tcc';
-  var COUNTER_KEY = 'downloads';
-  var API_BASE    = 'https://api.counterapi.dev/v1/' + COUNTER_NS + '/' + COUNTER_KEY;
-  var countEl     = document.getElementById('dl-count');
-  var btn         = document.getElementById('btn-download');
+  var GH_API  = 'https://api.github.com/repos/PedroPaulo00/TCC_AQUANAUTA/releases/tags/v1.0.0';
+  var countEl = document.getElementById('dl-count');
+  var btn     = document.getElementById('btn-download');
 
-  /* busca a contagem atual e preenche o elemento */
+  /* soma os download_count de todos os assets do release */
   function fetchCount() {
-    fetch(API_BASE)
+    fetch(GH_API, { headers: { Accept: 'application/vnd.github+json' } })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (countEl && typeof data.count === 'number') {
-          countEl.textContent = data.count.toLocaleString('pt-BR');
-        }
-      })
-      .catch(function () {});
-  }
-
-  /* incrementa o contador e actualiza o display */
-  function incrementCount() {
-    fetch(API_BASE + '/up')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (countEl && typeof data.count === 'number') {
-          countEl.textContent = data.count.toLocaleString('pt-BR');
-        }
+        if (!countEl || !Array.isArray(data.assets)) return;
+        var total = data.assets.reduce(function (sum, a) { return sum + (a.download_count || 0); }, 0);
+        countEl.textContent = total.toLocaleString('pt-BR');
       })
       .catch(function () {});
   }
@@ -514,24 +500,14 @@ const Marquee = (function () {
     e.preventDefault();
     var href = btn.getAttribute('href');
     if (href && href !== '#') {
-      incrementCount();
-      /* pequeno delay para dar tempo à requisição antes da navegação */
-      setTimeout(function () {
-        var a = document.createElement('a');
-        a.href = href;
-        a.download = '';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }, 120);
+      /* inicia o download e actualiza o contador 2s depois (GitHub leva um momento) */
+      window.location.href = href;
+      setTimeout(fetchCount, 2000);
     } else {
       var orig = btn.innerHTML;
       btn.innerHTML = '<span>Em breve...</span>';
       btn.style.pointerEvents = 'none';
-      setTimeout(function () {
-        btn.innerHTML = orig;
-        btn.style.pointerEvents = '';
-      }, 2200);
+      setTimeout(function () { btn.innerHTML = orig; btn.style.pointerEvents = ''; }, 2200);
     }
   });
 })();
